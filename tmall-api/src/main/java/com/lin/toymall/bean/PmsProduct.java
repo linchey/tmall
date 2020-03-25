@@ -14,7 +14,7 @@ public class PmsProduct implements Serializable {
     private String catalog3Id;
     private String catalog2Id;
     private String catalog1Id;
-
+    private  String note;
     private String defaultImg;
     @Transient
     public List<PmsProductImage> productImages;
@@ -89,5 +89,13 @@ public class PmsProduct implements Serializable {
 
     public void setDefaultImg(String defaultImg) {
         this.defaultImg = defaultImg;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

@@ -1,18 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title>商品添加
-    </title>
+    <title>商品添加</title>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<style>
+.addPic{
+width:150px ;
+height:150px;
+border: 2px dashed #dedede;
+text-align: center;
+margin: 20px;
+}
+.fa-plus{
+margin: 40px;
+font-size: 50px;
+color: #e1dfdf;
+padding: 10px;
+}
 
-    <link type="text/css" rel="stylesheet" media="screen" th:href="@{/css/index.css}">
-    <script th:src="@{/js/product.js}" type="text/javascript"></script>
+</style>
 
 </head>
 
 <body>
     <button type="button" class="btn bg-olive btn-xs addProductBtn" style="margin-left:5px " >添加商品</button>
     <div class="addFormView" hidden >
-    <form class="form-inline" method="post" role="form">
+    <form class="form-inline catalogForm" method="post" role="form">
         <div class="form-group">
         <label class="control-label" style="margin-left:10px;margin-right: 20px;">一级分类</label>
         <select  style="width: 150px" class="form-control catalog1"required  type="text"  >
@@ -31,9 +44,54 @@
             <option selected disabled value="0">请选择</option>
         </select>
         </div>
-        <button type="button" id="saveProductBtn" class="btn btn-primary " style="margin-left: 15px">确认</button>
-        <button type="button" id="cancelProductBtn" class="btn btn-primary "style="margin-left: 15px">取消</button>
+            <button type="button" id="cancelProductBtn" class="btn btn-primary "style="margin-left: 15px">取消</button>
+
     </form>
+
+    </div>
+    <div class="addProductPage" hidden>
+       <form role="form" method="post" class="form-horizontal" style="padding-left: 8px">
+              <div class="form-group">
+                  <input type="hidden" name="id"/>
+                  <input type="hidden" name="inputUser.id" />
+                  <label class="control-label">商品名称</label>
+                  <input minlength="6" required class="form-control"  type="text" id="productName" name="productName"/>
+              </div>
+              <div class="form-group">
+                  <label class="control-label">商品价格</label>
+                   <input type="text" required class="form-control"  id="price" name="price"/>
+              </div>
+              <div class="form-group">
+                  <label class="control-label">商品库存</label>
+                  <input class="form-control" required type="number" id="stock" name="stock"/>
+              </div>
+              <div class="form-group">
+                  <label class="col-sm-2 control-label">商品简介：</label>
+                  <div class="col-sm-10">
+                      <textarea class="form-control" name="note"></textarea>
+                  </div>
+              </div>
+
+              <div class="form-group">
+              <label class="control-label">商品图片</label>
+               <div class="showPic" >
+
+                 </div>
+               <div class="addPic">
+                 <label class="control-label">
+                      <i class="fa fa-plus"></i>
+                      <input style="position:absolute;opacity:0;"type="file" class="file" name="file">
+                 </label>
+               </div>
+
+              </div>
+
+        </form>
+        <div class="text-center" style="padding-bottom: 20px">
+                  <button type="button" id="saveProductBtn" class="btn btn-primary " style="margin-left: 15px">确认</button>
+                  <button type="button" id="cancelProduct1Btn" class="btn btn-primary "style="margin-left: 15px">取消</button>
+         </div>
+
     </div>
 </body>
 <script th:src="@{/js/product.js}" type="text/javascript"></script>
