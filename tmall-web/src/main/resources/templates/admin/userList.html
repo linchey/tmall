@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8" />
+	<title>用户信息列表</title>
+
+    <link href="/common/plugins/icheck-bootstrap/icheck-bootstrap.min.css" rel="stylesheet" />
+    <link href="/common/sco/css/pagination.css" rel="stylesheet" type="text/css" />
+    </head>
+<body>
+    <div>
+        <table class="table table-bordered" >
+            <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>昵称</th>
+                    <th>性别</th>
+                    <th>联系方式</th>
+                    <th>Email</th>
+                    <th>出生日期</th>
+                    <th>职业</th>
+                    <th>所在城市</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user:${userList}">
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.nickname}"></td>
+                    <td th:text="${user.gender}=='0'?'男':'女'"></td>
+                    <td th:text="${user.phone}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.birthday}"></td>
+                    <td th:text="${user.job}"></td>
+                    <td th:text="${user.city}"></td>
+                </tr>
+            </tbody>
+
+        </table>
+        <div style="margin-left: 550px">
+                    <ul class="pagination">
+                         <li class="page-link"><a href="#">&laquo;</a></li>
+                         <li class="page-link active"><a>1</a></li>
+                        <li class="page-link disabled "><a  href="#">2</a></li>
+                        <li class="page-link"><a href="#">3</a></li>
+                        <li class="page-link"><a href="#">4</a></li>
+                        <li class="page-link"><a href="#">5</a></li>
+                        <li class="page-link"><a href="#">&raquo;</a></li>
+                    </ul>
+        </div>
+
+    </div>
+</body>
+</html>

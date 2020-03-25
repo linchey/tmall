@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>地址管理</title>
+
+    <div th:replace="common_cssjs"></div>
+    <link type="text/css" rel="stylesheet" media="screen" th:href="@{/css/index.css}">
+
+</head>
+
+<body>
+
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+                <h3 class="panel-title">地址管理</h3>
+        </div>
+        <div class="panel-body">
+        <table class="table table-responsive table-striped">
+             <thead>
+
+             <tr>
+                 <td>收件人</td>
+                 <td>邮编</td>
+                 <td>电话</td>
+                 <td>省份</td>
+                 <td>城市</td>
+                 <td>区</td>
+                 <td>详细地址</td>
+                 <td colspan="2">操作<a  style="margin-left: 30px" class="btn btn-info btn-xs " data-toggle="modal" data-target="#addAddress">新增</a></td>
+                 <div class="modal fade" id="addAddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                             <div class="modal-header">
+                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                             <h4 class="modal-title" id="myModalLabel">添加地址</h4>
+
+                             <div class="modal-body">
+                                  <form method="post" role="form" action="/user/userAddress/add">
+                                       <div class="form-group">
+                                            <label class="control-label">收件人</label>
+                                            <input class="form-control"required id="name"  name="name" type="text">
+                                       </div>
+                                       <div class="form-group">
+                                            <label class="control-label">邮编</label>
+                                            <input class="form-control" required id="postCode"  name="postCode"type="text">
+                                       </div>
+                                       <div class="form-group">
+                                            <label class="control-label">电话</label>
+                                            <input class="form-control"required id="phone"  name="phone" type="text">
+                                       </div>
+                                       <div class="form-group">
+                                            <label class="control-label">省份</label>
+                                            <input class="form-control" type="text" required id="province"  name="province">
+                                       </div>
+                                       <div class="form-group">
+                                            <label class="control-label">城市</label>
+                                            <input class="form-control" required id="city"  name="city" type="text">
+                                       </div>
+                                       <div class="form-group">
+                                            <label class="control-label">区</label>
+                                            <input class="form-control" required id="region"  name="region"type="text">
+                                       </div>
+                                       <div class="form-group">
+                                            <label class="control-label">详细地址</label>
+                                            <input class="form-control" required id="detailAddress"  name="detailAddress"type="text">
+                                       </div>
+                                        <button type="button" id="addAddressBtn" class="btn btn-primary ">确认添加</button>
+                                  </form>
+                             </div>
+                             </div>
+                        </div>
+                    </div>
+                 </div>
+             </tr>
+             </thead>
+             <tbody>
+                 <tr th:each="userAddress:${userAddressList}" th:id="${userAddress.id}" >
+                     <td th:text="${userAddress.name}">收件人</td>
+                     <td th:text="${userAddress.postCode}">邮编</td>
+                     <td th:text="${userAddress.phone}">手机</td>
+                     <td th:text="${userAddress.province}">省份</td>
+                     <td th:text="${userAddress.city}">城市</td>
+                     <td th:text="${userAddress.region}">区</td>
+                     <td th:text="${userAddress.detailAddress}">详细地址</td>
+                     <td>
+                         <a class="btn btn-info btn-xs delAddresslBtn" th:id="${userAddress.id}">删除</a>
+                         <a class="btn btn-info btn-xs modifyAddresslBtn" th:id="${userAddress.id}"data-toggle="modal" data-target="#editAddress">修改</a>
+                         <div class="modal fade" id="editAddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                             <div class="modal-dialog">
+                                                 <div class="modal-content">
+                                                      <div class="modal-header">
+                                                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                      <h4 class="modal-title" id="myModalLabel">修改地址</h4>
+
+                                                      <div class="modal-body">
+
+                                                           <form method="post" role="form" action="/user/userAddress/modify/">
+                                                                <div class="form-group">
+                                                                     <label class="control-label">收件人</label>
+                                                                     <input class="form-control"required id="name1"  name="name" type="text" >
+                                                                </div>
+                                                                <div class="form-group">
+                                                                     <label class="control-label">邮编</label>
+                                                                     <input class="form-control" required id="postCode1"  name="postCode"type="text" >
+                                                                </div>
+                                                                <div class="form-group">
+                                                                     <label class="control-label">电话</label>
+                                                                     <input class="form-control"required id="phone1"  name="phone" type="text">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                     <label class="control-label">省份</label>
+                                                                     <input class="form-control" type="text" required id="province1"  name="province">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                     <label class="control-label">城市</label>
+                                                                     <input class="form-control" required id="city1"  name="city" type="text">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                     <label class="control-label">区</label>
+                                                                     <input class="form-control" required id="region1"  name="region"type="text">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                     <label class="control-label">详细地址</label>
+                                                                     <input class="form-control" required id="detailAddress1"  name="detailAddress"type="text">
+                                                                </div>
+                                                                 <button type="button" id="editAddresslBtn" class="btn btn-primary " >确认</button>
+                                                           </form>
+                                                      </div>
+                                                      </div>
+                                                 </div>
+                                             </div>
+                                          </div>
+
+                     </td>
+                 </tr>
+             </tbody>
+         </table>
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script th:src="@{/js/userAddress.js}" type="text/javascript"></script>
+</html>

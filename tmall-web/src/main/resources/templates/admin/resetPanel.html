@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>重置密码</title>
+    <link href="/common/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js">
+    <!-- Ionicons -->
+    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" />
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link href="/common/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <!-- iCheck -->
+    <link href="/common/plugins/icheck-bootstrap/icheck-bootstrap.min.css" rel="stylesheet" />
+    <!-- JQVMap -->
+    <link href="/common/plugins/jqvmap/jqvmap.min.css" rel="stylesheet" />
+    <!-- Theme style -->
+    <link href="/common/adminlte/css/adminlte.min.css" rel="stylesheet" />
+    <!-- overlayScrollbars -->
+    <link href="/common/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" rel="stylesheet" />
+    <!-- Daterange picker -->
+    <link href="/common/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <!-- summernote -->
+    <link href="/common/plugins/summernote/summernote-bs4.css" rel="stylesheet" />
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet" />
+
+</head>
+<body>
+	<form class="form-horizontal" role="form" action="resetPassord" method="post">
+    	<div class="form-group">
+    		<label for="oldPassword" class="col-sm-2 control-label">原密码</label>
+    		<div class="col-sm-10">
+    			<input type="text" class="form-control" id="oldPassword" name="oldPassword"
+    				 type="password"  placeholder="请输入密码">
+    		</div>
+    	</div>
+    	<div class="form-group">
+    		<label for="newPassword" class="col-sm-2 control-label">新密码</label>
+    		<div class="col-sm-10">
+    			<input type="text" class="form-control" id="newPassword" name="newPassword"
+    				type="password"   placeholder="请输入新密码">
+    		</div>
+    	</div>
+    	<div class="form-group">
+    		<label for="checkPassword" class="col-sm-2 control-label">新密码</label>
+    		<div class="col-sm-10">
+    			<input type="text" class="form-control" id="checkPassword" name="checkPassword"
+    				 type="password"  placeholder="请确认密码">
+    		</div>
+    		</div>
+    	</div>
+    	<div class="form-group">
+    		<div class="col-sm-offset-2 col-sm-10">
+    			<button type="submit" class="btn btn-default">确认</button>
+    		</div>
+    	</div>
+    	<!--/*@thymesVar id="resetTip" type=""*/-->
+    	<div id="resetTip" style="color: red " th:text="${resetTip}"aria-describedby="basic-addon0"></div>
+
+    </form>
+<script type="text/javascript">
+  function changeImg() {
+      var img=document.getElementById("getvCode");
+      img.src="/verifyCode?timestamp="+new Date().getTime();
+/*
+        $("#getvCode").attr("src","/verifyCode?timestamp=" + new Date().getTime());
+*/
+    }
+</script>
+<script src="/common/plugins/jquery/jquery.min.js"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="/common/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="/common/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
+<script src="/common/plugins/chart.js/Chart.min.js"></script>
+<!-- Sparkline -->
+<script src="/common/plugins/sparklines/sparkline.js"></script>
+<!-- JQVMap -->
+<script src="/common/plugins/jqvmap/jquery.vmap.min.js"></script>
+<script src="/common/plugins/jqvmap/maps/jquery.vmap.world.js"></script>
+<!-- jQuery Knob Chart -->
+<script src="/common/plugins/jquery-knob/jquery.knob.min.js"></script>
+<!-- daterangepicker -->
+<script src="/common/plugins/moment/moment.min.js"></script>
+<script src="/common/plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="/common/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Summernote -->
+<script src="/common/plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="/common/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/common/adminlte/js/adminlte.js"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="/common/adminlte/js/pages/dashboard.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/common/adminlte/js/demo.js"></script>
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+ <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>主页</title>
+    <div th:replace="common_cssjs"></div>
+
+</head>
+<body>
+
+<div th:replace="common/header::nav"></div>
+
+<div class="container">
+
+    <div class="jumbotron">
+        <h1>
+            玩具商城后台系统
+        </h1>
+
+        <p>
+            欢迎使用
+        </p>
+
+        <p>
+            <a class="btn btn-primary btn-large" th:href="@{login}">更多</a>
+        </p>
+    </div>
+
+</div>
+<div th:replace="common/footer::copy"></div>
+</body>
+</html>

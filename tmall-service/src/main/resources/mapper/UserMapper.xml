@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lin.toymall.service.mapper.UserMapper">
+    <!--用户注册-->
+    <select id="insertUser" parameterType="com.lin.toymall.bean.UmsMember">
+      insert into ums_member(username,password) values(#{umsMember.username},#{umsMember.password});
+    </select>
+    <!--根据用户名查找-->
+    <select id="selectByName" parameterType="String" resultType="com.lin.toymall.bean.UmsMember">
+        select * from ums_member where username=#{username};
+    </select>
+    <select id="selectIdByName" parameterType="String" resultType="String">
+        select id from ums_member where username=#{username};
+    </select>
+    <!--修改密码-->
+    <update id="updateUserPassword" parameterType="String">
+          update  ums_member set password=#{password} where username=#{username} ;
+    </update>
+    <!--修改用户信息-->
+    <update id="updateUserInfo" parameterType="com.lin.toymall.bean.UmsMember">
+      update ums_member
+      <set>
+          <if test="username!=null">username=#{username},</if>
+          <if test="password!=null">password=#{password},</if>
+          <if test="nickname!=null">nickname=#{nickname},</if>
+          <if test="phone!=null">phone=#{phone},</if>
+          <if test="status!=null">status=#{status},</if>
+          <if test="createTime!=null">createTime=#{createTime},</if>
+          <if test="icon!=null">icon=#{icon},</if>
+          <if test="gender!=null">gender=#{gender},</if>
+          <if test="birthday!=null">birthday=#{birthday},</if>
+          <if test="city!=null">city=#{city},</if>
+          <if test="job!=null">job=#{job},</if>
+          <if test="signature!=null">signature=#{signature},</if>
+          <if test="modifyTime!=null">modifyTime=#{modifyTime},</if>
+          <if test="email!=null">email=#{email},</if>
+      </set>
+      where id=#{id};
+    </update>
+    <!--用户查询-->
+
+</mapper>

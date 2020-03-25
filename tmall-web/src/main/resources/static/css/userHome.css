@@ -1,0 +1,240 @@
+body{
+    font-family: "Microsoft YaHei UI";
+    font-size: 12px;
+}
+.navbar {
+    position: relative;
+    min-height: 25px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+}
+.navbar-default .navbar-nav > li{
+    border-right: solid 1px #DDD;
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+}
+
+.nav>li{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    text-decoration: inherit;
+    cursor: pointer;
+}
+a:hover{
+    text-decoration: none;
+    color: red;
+}
+.navbar-nav>li>a {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.glyphicon-user{
+    padding-right: 5px;
+    color: #C62E2D;
+}
+.glyphicon-shopping-cart{
+    padding-right: 5px;
+    color: #F40;
+    font-size: 20px;
+}
+.search{
+    height: 40px;
+}
+.search input{
+    height: 100%;
+    font-size: 15px;
+    border: 2px solid #f03030;
+    border-right: none;
+    outline: none;
+}
+.search input:hover,
+.search input:focus
+{
+    outline: none;
+    height: 100%;
+    font-size: 15px;
+    border: 2px solid #f03030
+}
+.search button{
+
+    color: white;
+    background-color: #f03030;
+    height: 100%;
+    border: none;
+}
+
+.search button:hover,
+.search button:focus
+
+{
+    outline: none;
+    background-color: crimson;
+}
+.glyphicon-search{
+    font-size: 15px;
+}
+#shopping-cart-part{
+    text-align: center;
+    border: solid 1px #DDD;
+    height: 40px;
+    padding: 3px;
+}
+#shopping-cart-part a{
+    font-size: 20px;
+    color: #666;
+}
+.shopping-header{
+    width: 190px;
+    height: 32.8px;
+    float: left;
+    font-size: 20px;
+    text-align: center;
+    line-height:30px ;
+    background-color: red;
+    color: white;
+}
+.shopping-list-item{
+    width: 780px;
+    height: 32.8px;
+    float: left;
+
+}
+.shopping-list-item-li{
+    width: 104px;
+    list-style: none;
+    line-height:30px ;
+    font-size: 15px;
+    text-align: center;
+    border-right: solid 1px #ddd ;
+    cursor: pointer;
+}
+.shopping-list-item li > a{
+    color: black;
+}
+.shopping-list-item li > a:hover{
+    color: red;
+}
+
+.fl{
+    float: left;
+}
+#page-part3{
+    margin-top: 20px;
+}
+#page-part4{
+    position: relative;
+    min-height: 583px;
+    margin-bottom: 15px;
+}
+.main-mid{
+    margin-left: 200px;
+    width: 780px;
+    height: 100%;
+    float: left;
+    position: absolute;
+
+}
+.catroge {
+    width: 190px;
+    position: absolute;
+
+    height: 583px;
+    z-index: 6;
+}
+.right-part{
+    width: 200px;
+    height: 100%;
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+    float: right;
+}
+.item_header_title {
+    color: #333;
+    margin-bottom: 2px;
+    position: relative;
+    height: 20px;
+    font-weight: 400;
+    font-size: 14px;
+    height: 60px;
+    padding-top: 20px
+}
+.item1 {
+    height: 60px;
+    padding: 0 15px;
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+    background-color: #fff;
+    _overflow: hidden;
+    margin-left: -4px;
+    margin-right: 2px;
+}
+.item1:hover {
+    padding-left:1px;
+    height: 60px;
+    z-index:999;
+    border-top: 1px solid #bf1d1d;
+    border-bottom:1px solid #dc2e13;
+    border-right:none;
+    padding: 0 15px;
+}
+.bottom-img{
+    width: 50%;
+    height: 150px;
+    float: left;
+}
+.cat_subcont {
+    display:none;
+}
+.cat_subcont.active {
+    display:block;
+}
+.cat_subcont .cat_sublist {
+    position:absolute;
+    z-index:998;
+    top: 0px;
+    left: 187px;
+    padding-top:5px;
+    min-height:500px;
+    width:740px;
+    background: #f0edea;
+    border-top:1px solid #f9f9f9;
+
+    border-bottom:1px solid #dc2e13;
+
+}
+.cat_subcont .cat_sublist .fore1 {
+    width:740px;
+}
+.cat_subcont .cat_sublist .fore1 .fore_list {
+    padding:0 20px;
+}
+.cat_subcont .cat_sublist .fore1 .fore_list h3 {
+    padding:5px;
+    border-bottom:1px solid #d3d3d3;
+}
+.cat_subcont .cat_sublist .fore1 .fore_list h3 a {
+    font-size:14px;
+    color: black;
+    font-weight: bold;
+}
+.cat_subcont .cat_sublist .fore1 .fore_list li {
+    float:left;
+    padding:5px;
+    list-style: none;
+}
+.cat_subcont .cat_sublist .fore1 .fore_list li a {
+    font-size:12px;
+    color:#333;
+}
+.cat_subcont .cat_sublist .fore1 .fore_list li a:hover {
+    color:#dc2e13;
+    text-decoration:underline;
+}

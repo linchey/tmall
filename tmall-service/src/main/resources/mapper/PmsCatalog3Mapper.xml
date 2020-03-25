@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lin.toymall.service.mapper.PmsCatalog3Mapper">
+
+    <resultMap id="catalog3Map" type="com.lin.toymall.bean.PmsCatalog3" autoMapping="true">
+        <id column="id" property="id"></id>
+    </resultMap>
+    <select id="selectCatalogCount" resultType="int">
+        select count(id) from pms_catalog3;
+    </select>
+    <select id="selectCatalogPage" parameterType="java.util.HashMap" resultMap="catalog3Map">
+        select id,name,catalog2_id from pms_catalog3
+        <if test="start!=null and size!=null">
+            limit #{start},#{size};
+        </if>
+    </select>
+
+</mapper>

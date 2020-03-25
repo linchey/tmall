@@ -1,0 +1,14 @@
+.pagination > .active,
+.pagination > .active:hover,
+.pagination > .active:active
+{
+    cursor: default;
+    color: white;background-color: blue;
+}
+.disabled > a,
+.disabled > a:hover,
+.disabled > a:active
+{
+    cursor: not-allowed;
+    color: #dedede;
+}

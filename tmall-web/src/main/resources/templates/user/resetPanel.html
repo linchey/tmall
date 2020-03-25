@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>用户注册</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/css/register.css">
+	<!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+      <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+
+
+
+<script>
+	$(function(){
+		$("#close").click(function(){
+			if($("#password").attr("type")=="password"){
+				$("#close").removeClass("glyphicon glyphicon-eye-close");
+				$("#close").addClass("glyphicon glyphicon-eye-open");
+				$("#password").attr("type","text");
+			}
+			else{
+
+				$("#close").removeClass("glyphicon glyphicon-eye-open");
+				$("#close").addClass("glyphicon glyphicon-eye-close");
+				$("#password").attr("type","password");
+			}
+		})
+	})
+</script>
+<style>
+    a{
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+	<div class="container">
+		<div class="panel panel-info">
+			<div class="panel-body">
+				<ul id="myTab" class="nav nav-tabs">
+					<li class="active">
+						<a href="#home" data-toggle="tab">
+							密码修改
+						</a>
+					</li>
+
+
+				</ul>
+				<div id="myTabContent" class="tab-content">
+					<br>
+					<div class="tab-pane fade in active" id="home">
+					    <form METHOD="post" th:action="@{resetPassord}">
+						<div class="lab"><label  ><i title="原密码" class="glyphicon glyphicon-lock"></i><input type="password" placeholder="原密码" class="text" id="oldPassword" name="oldPassword"></label></div>
+
+						<div class="lab"><label ><i title="新密码" class="glyphicon glyphicon-lock"></i><input id="password" name="newPassword" type="password" placeholder="输入密码" class="text"><a id="close" class="glyphicon glyphicon-eye-close"></a></label></div>
+                        <div class="lab"><label ><i title="确认密码" class="glyphicon glyphicon-lock"></i><input id="checkPassword" name="checkPassword" type="password" placeholder="确认密码" class="text"></label></div>
+                        <div class="identity">
+                             <label><input type="text" placeholder="请输入验证码" name="identifies" autocomplete="off" id="verifyCode" name="verifyCode"></label>
+                             <span><img src="verifyCode" title="验证码"  id="getvCode"/></span>
+                        </div>
+                        <div style="width:310px;margin-top:5px"><a th:href="|javascript:changeImg()|" style="margin-left: 210px "id="changeVCode" >看不清，换一张</a></div>
+                        <!--/*@thymesVar id="resetTip" type=""*/-->
+                        <div id="logiTips" style="color: red " th:text="${resetTip}"aria-describedby="basic-addon0"></div>
+
+						<br>
+						<div><input type="button" id="register" class="btn btn-primary" value="确定" type="submit" ></div>
+
+						</form>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+  function changeImg() {
+      var img=document.getElementById("getvCode");
+      img.src="verifyCode?timestamp="+new Date().getTime();
+/*
+        $("#getvCode").attr("src","/verifyCode?timestamp=" + new Date().getTime());
+*/
+    }
+</script>
+</body>
+</html>

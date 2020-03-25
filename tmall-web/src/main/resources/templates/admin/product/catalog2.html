@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>二级分类</title>
+     <link href="/common/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
+
+</head>
+<body>
+<!--<div class="pull-left">
+     <div class="form-group form-inline">
+         <div class="btn-group">
+             <button type="button" class="btn btn-default" title="新建" data-toggle="modal" data-target="#editModal" ><i class="fa fa-file-o"></i> 新建</button>
+             <button type="button" class="btn btn-default" title="删除" ng-click="dele()" ><i class="fa fa-trash-o"></i> 删除</button>
+             <button type="button" class="btn btn-default" title="刷新" ><i class="fa fa-check"></i> 刷新</button>
+
+         </div>
+     </div>
+ </div>-->
+    <button type="button" class="btn bg-olive btn-xs addCatalogBtn" style="margin-left:5px " >新增</button>
+    <div class="addFormView" hidden >
+         <form class="form-inline" method="post" role="form">
+              <div class="form-group">
+                   <label class="control-label" style="margin-left:10px;margin-right: 20px;">上级分类</label>
+
+                   <select  class="form-control catalog1"required  type="text"  th:if="${catalog1List==null}">
+                        <option selected disabled value="0">没有数据</option>
+                    </select>
+                    <select class="form-control catalog1"required  type="text"  th:unless="${catalog1List==null}"   >
+                         <option selected disabled value="0">请选择分类</option>
+                    <span th:each="catalog1:${catalog1List}">
+                        <option th:text="${catalog1.name}" th:value="${catalog1.id}">请选择分类</option>
+                    </span>
+                    </select>
+              </div>
+              <div class="form-group">
+                   <label class="control-label " style="margin-left:10px;margin-right: 20px;">分类名称</label>
+                   <input class="form-control catalog2Name" required id="name"  name="name" type="text">
+              </div>
+
+               <button type="button" id="saveCatalogBtn" class="btn btn-primary " style="margin-left: 15px">确认</button>
+               <button type="button" id="cancelCatalogBtn" class="btn btn-primary "style="margin-left: 15px">取消</button>
+         </form>
+    </div>
+
+
+<table class="table table-bordered table-striped" style="margin-top: 10px">
+    <thead>
+    <tr>
+        <th>上级商品分类</th>
+        <th>商品分类名称</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr th:each="catalog2:${catalog2List} " th:id="${catalog2.id}">
+
+            <td class="catalog1Name" name="catalog1Name" th:text="${catalog2.catalog1Name}"></td>
+            <td class="name" name="name" th:text="${catalog2.name}"></td>
+            <td><button type="button" class="btn bg-olive btn-xs modifyCatalog2Btn"   >修改</button><button style="margin-left: 30px" type="button" class="btn bg-olive btn-xs delCatalog2Btn"   >删除</button></td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+</div>
+</body>
+<script th:src="@{/js/catalog2.js}" type="text/javascript"></script>
+
+</html>
