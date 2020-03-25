@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/tmall.iml" filepath="$PROJECT_DIR$/.idea/tmall.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tmall-api/tmall-api.iml" filepath="$PROJECT_DIR$/tmall-api/tmall-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tmall-common-util/tmall-common-util.iml" filepath="$PROJECT_DIR$/tmall-common-util/tmall-common-util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tmall-parent/tmall-parent.iml" filepath="$PROJECT_DIR$/tmall-parent/tmall-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tmall-service/tmall-service.iml" filepath="$PROJECT_DIR$/tmall-service/tmall-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tmall-service-util/tmall-service-util.iml" filepath="$PROJECT_DIR$/tmall-service-util/tmall-service-util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tmall-web/tmall-web.iml" filepath="$PROJECT_DIR$/tmall-web/tmall-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tmall-web-util/tmall-web-util.iml" filepath="$PROJECT_DIR$/tmall-web-util/tmall-web-util.iml" />
+    </modules>
+  </component>
+</project>

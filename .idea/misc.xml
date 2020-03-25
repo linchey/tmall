@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="EntryPointsManager">
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="com.alibaba.dubbo.config.annotation.Service" />
+    </list>
+  </component>
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="FLOW" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/tmall-parent/pom.xml" />
+        <option value="$PROJECT_DIR$/tmall-common-util/pom.xml" />
+        <option value="$PROJECT_DIR$/tmall-api/pom.xml" />
+        <option value="$PROJECT_DIR$/tmall-service-util/pom.xml" />
+        <option value="$PROJECT_DIR$/tmall-web-util/pom.xml" />
+        <option value="$PROJECT_DIR$/tmall-service/pom.xml" />
+        <option value="$PROJECT_DIR$/tmall-web/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+</project>
