@@ -3,24 +3,29 @@ package com.lin.toymall.bean;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 
 public class PmsProduct implements Serializable {
     @Id
     private String id;
     private  String productName;
     private Double price;
-    private  int stock;
+    private  String stock;
     private String catalog3Id;
     private String catalog2Id;
     private String catalog1Id;
     private  String note;
     private String defaultImg;
-    @Transient
-    public List<PmsProductImage> productImages;
 
-    public List<PmsProductImage> getProductImages() {
+    @Transient
+    public ArrayList<String> productImages;
+
+    public ArrayList<String> getProductImages() {
         return productImages;
+    }
+
+    public void setProductImages(ArrayList<String> productImages) {
+        this.productImages = productImages;
     }
 
     public String getCatalog2Id() {
@@ -39,9 +44,7 @@ public class PmsProduct implements Serializable {
         this.catalog1Id = catalog1Id;
     }
 
-    public void setProductImages(List<PmsProductImage> productImages) {
-        this.productImages = productImages;
-    }
+
 
     public String getId() {
         return id;
@@ -67,11 +70,11 @@ public class PmsProduct implements Serializable {
         this.price = price;
     }
 
-    public int getStock() {
+    public String getStock() {
         return stock;
     }
 
-    public void setStock(int stock) {
+    public void setStock(String stock) {
         this.stock = stock;
     }
 

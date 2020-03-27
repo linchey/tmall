@@ -20,12 +20,15 @@ $(function() {
     $(".addProductBtn").click(function () {
         $(this).attr("disabled",'disabled');
         $(".addFormView").removeAttr("hidden");
+
+        $(".productList").attr("hidden","hidden");
     });
     //点击取消按钮
     $(document).on("click","#cancelProductBtn",function () {
         $(".addFormView").attr("hidden",'hidden');
         $(".addProductPage").attr("hidden",'hidden');
         $(".addProductBtn").removeAttr("disabled");
+        $(".productList").removeAttr("hidden");
     });
     //点击取消按钮1
     $("#cancelProduct1Btn").click(function () {
@@ -38,9 +41,10 @@ $(function() {
 
         $(".addProductPage").attr("hidden",'hidden');
         $(".addProductBtn").removeAttr("disabled");
-        $(".catalogForm").append("<button type=\"button\" id=\"cancelProductBtn\" class=\"btn btn-primary \"style=\"margin-left: 15px\">取消</button>\n")
+        $(".row").append("<button type=\"button\" id=\"cancelProductBtn\" class=\"btn btn-primary \"style=\"margin-left: 15px\">取消</button>\n")
         $(".addFormView").attr("hidden",'hidden');
-        $(".showPic").html("");
+        $(".file").parents(".addPic").siblings().remove();
+        $(".productList").removeAttr("hidden");
     });
     //一级分类点击事件
     $(".catalog1").click(function () {
@@ -151,7 +155,7 @@ $(function() {
 
     });
     //图片上传功能
-    $('.file').on('change', function () {
+    $(document).on("change",".file", function () {
         var formData = new FormData();
         formData.append("file",$('.file')[0].files[0]);
         var filename = $('.file')[0].files[0].name;
@@ -166,34 +170,175 @@ $(function() {
            success:function (data) {
                data=JSON.stringify(data);
                //alert(data);
-               $(".showPic").append("<img src="+data+">");
-
+               $('.file').parents(".addPic").html("<img style='width: 100%;height: 100%' src="+data+">");
+               $(".addPic").parent(".row").append("<div style='margin-left: 20px' class=\"addPic\"><label ><i class=\"fa fa-plus\"></i><input style=\"position:absolute;opacity:0;\"type=\"file\" class=\"file\" name=\"file\"></label>")
            }
-       }).first();
+       });
 
     });
-    $(" img").each(function() {
-        var maxWidth = 150; // 图片最大宽度
-        var maxHeight = 150; // 图片最大高度
-        var ratio = 0; // 缩放比例
-        var width = $(this).width(); // 图片实际宽度
-        var height = $(this).height(); // 图片实际高度
+//提交按钮
+    $("#saveProductBtn").click(function () {
+        var catalog1Id=$(".catalog1").val();
+        //alert(catalog1Id);
+        var catalog2Id=$(".catalog2").val();
+        //alert(catalog2Id);
+        var catalog3Id=$(".catalog3").val();
+        //alert(catalog3Id)
+        var productName=$("#productName").val();
+        var price=$("#price").val();
+        var stock=$("#stock").val();
+        if(stock==null||stock==0){
+            stock=0;
+        }
+        var note=$("#note").val();
+        var images=$(".addPic").find(" img");
+        var imageUrls= new Array();
+        if(images.length==0){
+            alert("请至少选择一张图片")
+        }else{
+            for(var i=0;i<images.length;i++){
+                imageUrls[i]=$(images[i]).attr("src");
+                //alert($(images[i]).attr("src"));
+            }
+            if(catalog1Id!=0||catalog1Id!=null){
+                if(catalog2Id==0||catalog2Id==null){
+                    catalog2Id=null;
+                    catalog3Id=null;
+                }else if(catalog3Id==0||catalog3Id==null){
+                    catalog3Id=null;
+                }
+                /*  alert(catalog1Id);
+                  alert(catalog2Id);
+                  alert(catalog3Id);*/
+                var data={"catalog1Id":catalog1Id,
+                    "catalog2Id":catalog2Id,
+                    "catalog3Id":catalog3Id,
+                    "productName":productName,
+                    "price":price,
+                    "stock":stock,
+                    "note":note,
+                    "defaultImg":"",
+                    "productImages":imageUrls
+                };
+                $.ajax({
+                    url:"/product/addProduct",
+                    type:'POST',
 
-        // 检查图片是否超宽
-        if(width > maxWidth){
-            ratio = maxWidth / width; // 计算缩放比例
-            $(this).css("width", maxWidth); // 设定实际显示宽度
-            height = height * ratio; // 计算等比例缩放后的高度
-            $(this).css("height", height); // 设定等比例缩放后的高度
+                    dataType:"json",
+                    contentType:"application/json",
+                    data:JSON.stringify(data),
+                    success:function (result) {
+
+                        if(result.status=="SUCCESS"){
+                            alert("添加成功！");
+                            window.location.reload();
+                        }else{
+                            alert("已经存在该产品！不要重复添加商品");
+                        }
+                    }
+                });
+            }else{
+                alert("请选择分类信息");
+            }
         }
 
-        // 检查图片是否超高
-        if(height > maxHeight){
-            ratio = maxHeight / height; // 计算缩放比例
-            $(this).css("height", maxHeight); // 设定实际显示高度
-            width = width * ratio; // 计算等比例缩放后的高度
-            $(this).css("width", width * ratio); // 设定等比例缩放后的高度
-        }
+
     });
+/*修改商品信息*/
+    var oldValue="";
+//**** 鼠标双击事件
+    $(document).off("dblclick");//解绑
+    $(document).on("dblclick", ".edit", function () {
+            //判断是否已经点击，如果已经是被点击过的，就return ,不让程序再次生成input
+            if ($(this).children("input").attr("type") == "text") return;
+             oldValue=$(this).html();
+            alert(oldValue);
+            $(this).html('<input type="text" class="modify" style=" height:30px;width:140px" />');
+            //将焦点放在最后。（先赋值为空，然后再获取焦点，然后再反填oldValue）
+            //这样就可以让焦点出现在最后，而不是出现在oldValue的最前面
+            $(this).children("input").val(" ").focus().val(oldValue);
+        }
+    );
+    //修改
 
+    $(document).off("blur");//解绑
+    //失去焦点时进行修改请求
+    $(document).on("blur", ".modify", function () {
+            //alert(oldValue);
+            var ID = $(this).parents('tr').attr('id');
+
+            //输入的值
+            var newValue = $(this).val();
+
+            //要修改的字段名称
+            var field = $(this).parent().attr('field');
+
+            $.ajax({
+                url: "/product/modify",
+                type: "post",
+                dataType:"json",
+                data: {
+                    id: ID,
+                    field:field,
+                    newValue: newValue
+                },
+                success: function (result) {
+
+                    if (result.status=="SUCCESS") {
+                        $(".modify").parent().html(newValue);
+                        //成功后将新输入的值 赋值给span
+                        alert("修改成功");
+                        //window.location.reload();
+                    } else {
+                        alert('修改失败');
+                        //失败后将旧值 赋值给span
+                        $(".modify").parent().html(oldValue);
+                    }
+
+                }
+            });
+
+        }
+    );
+    //删除商品信息
+    $(".delProductBtn").click(function () {
+        var productId=$(this).parents("tr").attr("id");
+        $.ajax({
+            url:"/product/delete/"+productId,
+            dataType:"json",
+            type:"Post",
+            data:{
+                "id":productId
+            },
+            success:function (result) {
+                if(result.status=="SUCCESS"){
+                    alert("删除成功！");
+                    window.location.reload();
+                }else{
+                    alert("删除失败");
+                }
+            }
+        });
+    });
+    //查询按钮
+    $("#queryProductBtn").click(function () {
+        var catalog1Id=$(".catalog1").val();
+        //alert(catalog1Id);
+        var catalog2Id=$(".catalog2").val();
+        //alert(catalog2Id);
+        var catalog3Id=$(".catalog3").val();
+        $.ajax({
+            url:"/product/query",
+            data:{
+                catalog1Id:catalog1Id,
+                catalog2Id:catalog2Id,
+                catalog3Id:catalog3Id
+            },
+            dataType:"json",
+            type:"POST",
+            success:function (result) {
+
+            }
+        });
+    });
 })

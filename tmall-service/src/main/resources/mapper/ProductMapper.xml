@@ -4,4 +4,35 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lin.toymall.service.mapper.ProductMapper">
 
+    <select id="selectIdByName" parameterType="String" resultType="String">
+        select id from pms_product where product_name=#{productName}
+    </select>
+    <select id="selectProductCount" resultType="int">
+        select count(id) from pms_product;
+    </select>
+    <select id="selectProductPage" parameterType="java.util.HashMap" resultMap="productMap">
+        select * from pms_product
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+    <resultMap id="productMap" type="com.lin.toymall.bean.PmsProduct" autoMapping="true">
+        <id column="id" property="id"></id>
+    </resultMap>
+    <select id="selectProByCatalog" parameterType="String" resultMap="productMap">
+        select * from pms_product
+
+         <trim prefix="where" prefixOverrides="and">
+              <if test="catalog1Id!=null">
+                 and catalog1_id=#{catalog1Id}
+              </if>
+              <if test="catalog2Id!=null">
+                  and catalog2_id=#{catalog2Id}
+              </if>
+              <if test="catalog3Id!=null">
+                  and catalog3_id=#{catalog3Id}
+              </if>
+          </trim>
+
+    </select>
 </mapper>

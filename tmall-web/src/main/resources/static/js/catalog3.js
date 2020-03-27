@@ -1,5 +1,6 @@
 $(function () {
     //删除三级分类
+    $(document).off("click", ".delCatalog3Btn");
     $(document).on("click",".delCatalog3Btn",function(){
         var catalog3Id = $(this).parents("tr").attr("id");
         var check=confirm("确定删除吗?");
@@ -18,7 +19,7 @@ $(function () {
                         alert("删除失败");
                     }
                 },
-            })
+            }).first();
         }
     });
     //点击新增按钮
@@ -61,7 +62,7 @@ $(function () {
                         alert(result.message);
                     }
                 },
-            })
+            }).first();
 
             }
 
@@ -154,8 +155,9 @@ $(function () {
         $(this).remove();
     });
     //点击存按钮
+    $(document).off("click", ".saveModifyBtn");//移除监听
     $(document).on("click",".saveModifyBtn",function(){
-        $(this).unbind();
+
         var catalog2Name=$(this).parent().siblings("td").find("input:text").val();
         var catalog3Name=$(this).parent().prev().find("input:text").val();
         var id=$(this).parents("tr").attr("id");
@@ -175,13 +177,13 @@ $(function () {
                     if(result.status=="SUCCESS"){
                         alert("修改成功");
                         //刷新当前页面
-                        window.location.reload();
+                        //window.location.reload();
 
                     }else{
                         alert(result.message);
                     }
                 }
-            });
+            }).first();
         }
         $(this).parent().siblings("td").each(function () {  // 获取当前行的其他单元格
             obj_text = $(this).find("input:text");    // 判断单元格下是否有文本框

@@ -1,5 +1,6 @@
 $(function () {
-    //删除二级分类
+    //删除一级分类
+    $(document).off("click", ".delCatalog1Btn");
     $(document).on("click",".delCatalog1Btn",function(){
         var catalog1Id = $(this).parents("tr").attr("id");
         var check=confirm("确定删除吗?");
@@ -8,6 +9,7 @@ $(function () {
                 url: "/catalog1/delete/" + catalog1Id,
                 method:"get",
                 dataType:"json",
+                cache:false,
                 success: function (result) {
                     if(result.status=="SUCCESS"){
                         $("tr[id="+catalog1Id+"]").remove();
@@ -17,10 +19,10 @@ $(function () {
                         alert("删除失败");
                     }
                 },
-            }).first();
+            });
 
         }
-    });
+    }).first();
     //点击新增按钮
     $(".addCatalogBtn").click(function () {
         $(this).attr("disabled",'disabled');
@@ -43,6 +45,7 @@ $(function () {
                     url: "/catalog1/add/",
                     method:"post",
                     dataType:"json",
+                    cache:false,
                     data:{
                         "name":name,
                     },
@@ -55,10 +58,10 @@ $(function () {
                             alert(result.message);
                         }
                     },
-                }).first();
+                });
             }
         }
-    });
+    }).first();
     //点击修改按钮
     $(document).on("click",".modifyCatalog1Btn",function(){
         $(this).parent().siblings("td").each(function () {  // 获取当前行的其他单元格
@@ -75,8 +78,9 @@ $(function () {
         $(this).parent().append("<button  type='button' class='btn bg-olive btn-xs saveModify1Btn' >保存</button>");
         $(this).parent().append("<button style='margin-left: 30px' type='button' class='btn bg-olive btn-xs cancelModify1Btn' >取消</button>");
         $(this).remove();
-    });
+    }).first();
     //点击修改保存按钮
+    $(document).off("click", ".saveModify1Btn");
     $(document).on("click",".saveModify1Btn",function(){
         var catalog1Name=$(this).parent().siblings("td").find("input:text").val();
         var id=$(this).parents("tr").attr("id");
@@ -86,7 +90,7 @@ $(function () {
                 url: "/catalog1/modify/" ,
                 method:"post",
                 dataType:"json",
-
+                cache:false,
                 data:{
                     "id":id,
                     "name":catalog1Name,
@@ -95,7 +99,8 @@ $(function () {
                     if(result.status=="SUCCESS"){
                         alert("修改成功");
                         //刷新当前页面
-                        //window.location.reload();
+                            window.location.reload();
+
 
                     }else{
                         alert(result.message);
@@ -123,7 +128,7 @@ $(function () {
         $(this).parent().append("<button  type='button' class='btn bg-olive btn-xs modifyCatalog1Btn' >修改</button>");
         $(this).parent().append("<button style='margin-left: 30px' type='button' class='btn bg-olive btn-xs delCatalog1Btn' >删除</button>");
         $(this).remove();
-    });
+    }).first();
 
 
     })

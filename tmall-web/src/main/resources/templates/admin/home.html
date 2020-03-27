@@ -41,7 +41,7 @@
 
         })*/
     function loadXMLDoc(url){
-      $('#mainbox').load(url);
+        $('#mainbox').load(url);
     }
     </script>
 
@@ -120,16 +120,16 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a  href="javascript:;" th:onclick="|javascript:loadXMLDoc('hello')|" o class="nav-link">
+                <li class="nav-item">
+                <a href="javascript:;" th:onclick="|javascript:loadXMLDoc('/product/qurProductPage')|" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>商品列表</p>
+                  <p>商品查询</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="javascript:;" th:onclick="|javascript:loadXMLDoc('/product/addProductPage')|" class="nav-link">
+                <a href="javascript:;" th:onclick="|javascript:loadXMLDoc('/product/productPage')|" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>添加商品</p>
+                  <p>商品信息</p>
                 </a>
               </li>
             </ul>
@@ -239,7 +239,7 @@
       <li class="breadcrumb-item active"><a><i class='fa fa-home'></i>首页</a></li>
 
   </ul>
-    <div id="mainbox">
+    <div id="mainbox" style="margin: 15px;">
         <div th:replace="admin/hello"></div>
     </div>
   </div>
