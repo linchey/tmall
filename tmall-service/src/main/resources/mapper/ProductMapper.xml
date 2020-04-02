@@ -23,16 +23,19 @@
         select * from pms_product
 
          <trim prefix="where" prefixOverrides="and">
-              <if test="catalog1Id!=null">
+              <if test="catalog1Id!=null and catalog1Id!=''">
                  and catalog1_id=#{catalog1Id}
               </if>
-              <if test="catalog2Id!=null">
+              <if test="catalog2Id!=null and catalog2Id!=''">
                   and catalog2_id=#{catalog2Id}
               </if>
-              <if test="catalog3Id!=null">
+              <if test="catalog3Id!=null and catalog3Id!=''">
                   and catalog3_id=#{catalog3Id}
               </if>
           </trim>
 
+    </select>
+    <select id="selectBySearch" parameterType="String" resultMap="productMap">
+        select * from pms_product where product_name like concat('%',#{search},'%')
     </select>
 </mapper>

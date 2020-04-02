@@ -20,6 +20,9 @@ padding: 10px;
 .edit{
 cursor: pointer;
 }
+select option{
+font-weight: normal;
+}
 </style>
 
 </head>
@@ -30,18 +33,18 @@ cursor: pointer;
     <form role="form" method="post" class="form-horizontal" style="padding-left: 8px" action="@{/product/addProduct}">
        <div class="addFormView" hidden >
        <div class="row">
-        <label class="control-label" style="margin-left:10px;margin-right: 20px;">一级分类</label>
-        <select  style="width: 150px" class="form-control catalog1"required  type="text"  >
-            <option selected disabled value="0">请选择</option>
-        </select>
-        <label class="control-label" style="margin-left:10px;margin-right: 20px;">二级分类</label>
-        <select  style="width: 150px" class="form-control catalog2"  type="text"  >
-            <option selected disabled value="0">请选择</option>
-        </select>
-        <label class="control-label" style="margin-left:10px;margin-right: 20px;">三级分类</label>
-        <select style="width: 150px" class="form-control catalog3"  type="text"  >
-            <option selected disabled value="0">请选择</option>
-        </select>
+          <label class="control-label" style="margin-left:10px;margin-right: 20px;">一级分类</label>
+                <select  style="width: 150px ;font-weight: bold" class="form-control catalog1"  type="text"  >
+                    <option  style="font-weight: bold" selected disabled value="0">请选择</option>
+                </select>
+                <label class="control-label" style="margin-left:10px;margin-right: 20px;">二级分类</label>
+                <select  style="width: 150px ;font-weight: bold" class="form-control catalog2"  type="text"  >
+                    <option style="font-weight: bold"selected disabled value="0">请选择</option>
+                </select>
+                <label class="control-label" style="margin-left:10px;margin-right: 20px;">三级分类</label>
+                <select style="width: 150px ;font-weight: bold" class="form-control catalog3"  type="text"  >
+                    <option style="width: 150px ;font-weight: bold" selected disabled value="0">请选择</option>
+                </select>
 
         <button type="button" id="cancelProductBtn" class="btn btn-primary "style="margin-left: 15px">取消</button>
         </div>
@@ -108,7 +111,7 @@ cursor: pointer;
                    <td style="text-align: center;line-height: 150px;"><span class="edit" onselectstart="return false" field="stock" th:text="${product.stock}"></span></td>
                    <td style="text-align: center;line-height: 150px;"><span class="edit" onselectstart="return false" field="note" th:text="${product.note}"></span></td>
                    <td style="text-align: center;line-height: 150px;"><img style='width: 150px;height: 150px' th:src="${product.defaultImg}"></td>
-                   <td style="text-align: center;line-height: 150px;"><button type="button" class="btn bg-olive btn-xs modifyProductBtn"   >图片设置</button><button style="margin-left: 30px" type="button" class="btn bg-olive btn-xs delProductBtn"   >删除</button></td>
+                   <td style="text-align: center;line-height: 150px;"><button type="button" class="btn bg-olive btn-xs modifyProductImgBtn"   >图片设置</button><button style="margin-left: 30px" type="button" class="btn bg-olive btn-xs delProductBtn"   >删除</button></td>
 
               </tr>
 

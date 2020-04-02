@@ -1,21 +1,5 @@
 $(function() {
-    $("#sub-nav-product").attr("class","active");
-    var productId = $(this).attr("productid");
-    $(".addCart").click(function () {
-        $.ajax({
-            url:"/cart/add/"+productId+"/1",
-            success:function(result){
-                if(result.status=="SUCCESS"){
-                    toastr.info("添加购物车成功.");
-                }else{
-                    toastr.warn(result.message);
-                }
-            },
-            error:function(){
-                toastr.warn("发生错误,稍后重试.");
-            }
-        })
-    });
+
     //点击新增按钮
     $(".addProductBtn").click(function () {
         $(this).attr("disabled",'disabled');
@@ -47,9 +31,10 @@ $(function() {
         $(".productList").removeAttr("hidden");
     });
     //一级分类点击事件
-    $(".catalog1").click(function () {
 
+    $(document).on("click",".catalog1",function () {
 
+        $(this).find(" option:selected").css("font-weight","bold")
         $.ajax( {
             url:"/catalog/getCatalog1",
             method:"get",
@@ -57,30 +42,36 @@ $(function() {
             cache:false,
             dataType:"json",
             success:function (result) {
-
                 //alert(result[0].name);
                 if(result.length<1){
                     $(".catalog1 option").remove();
                     $(".catalog1" ).append("<option value='0' selected disabled>NULL</option>");
                     return;
                 }
+
                 var optionString="";
                 for(var i=0;i<result.length;i++){
-                   // alert(result[i].id);
+                    // alert(result[i].id);
                     optionString+="<option value='"+result[i].id+"'>"+result[i].name+"</option>";
 
                 }
-                /*$(".catalog1 option[value='0']" ).removeAttr(selected);*/
+               // $(".catalog1 option[value='0']" ).removeAttr(selected);
+
                 $(".catalog1").append(optionString);
+
             }
-        }).first();
-    });
+        })
+    }).first()
     //一级分类change事件
     $(document).on("change",".catalog1",function () {
         var catalog1Id=$(this).val();
+        $(this).children(" option[value='"+catalog1Id+"']").attr("selected");
+        $(this).find(" option:selected").siblings().css("font-weight","normal");
+        catalog1Id=$(".catalog1").val()
+
         $(".catalog2 option").remove();
         if(catalog1Id==0){
-           return;
+            return;
         }
         $.ajax({
             url:"/catalog/getCatalog2?"+catalog1Id,
@@ -92,7 +83,7 @@ $(function() {
             },
             dataType:"json",
             success:function (result) {
-               // alert(result.length);
+                // alert(result.length);
                 if(result.length==0){
                     $(".catalog2 option").remove();
                     $(".catalog2" ).append("<option value='0' selected disabled>NULL</option>");
@@ -112,10 +103,12 @@ $(function() {
                 $("#cancelProductBtn").remove();
             }
         }).first();
-    });
+    }).first();
     //二级分类change事件
     $(document).on("change",".catalog2",function () {
         var catalog2Id=$(this).val();
+        $(this).find(" option:selected").css("font-weight","bold")
+        $(this).find(" option:selected").siblings().css("font-weight","normal");
         $(".catalog3 option").remove();
         $.ajax({
             url:"/catalog/getCatalog3?"+catalog2Id,
@@ -150,7 +143,8 @@ $(function() {
     });
     //三级分类change事件
     $(document).on("change",".catalog3",function () {
-
+        $(this).find(" option:selected").css("font-weight","bold")
+        $(this).find(" option:selected").siblings().css("font-weight","normal");
         //$(".addProductPage").removeAttr("hidden");
 
     });
@@ -173,7 +167,7 @@ $(function() {
                $('.file').parents(".addPic").html("<img style='width: 100%;height: 100%' src="+data+">");
                $(".addPic").parent(".row").append("<div style='margin-left: 20px' class=\"addPic\"><label ><i class=\"fa fa-plus\"></i><input style=\"position:absolute;opacity:0;\"type=\"file\" class=\"file\" name=\"file\"></label>")
            }
-       });
+       }).first();
 
     });
 //提交按钮
@@ -247,21 +241,21 @@ $(function() {
 /*修改商品信息*/
     var oldValue="";
 //**** 鼠标双击事件
-    $(document).off("dblclick");//解绑
+    //$(document).off("dblclick");//解绑
     $(document).on("dblclick", ".edit", function () {
             //判断是否已经点击，如果已经是被点击过的，就return ,不让程序再次生成input
             if ($(this).children("input").attr("type") == "text") return;
              oldValue=$(this).html();
-            alert(oldValue);
+           // alert(oldValue);
             $(this).html('<input type="text" class="modify" style=" height:30px;width:140px" />');
             //将焦点放在最后。（先赋值为空，然后再获取焦点，然后再反填oldValue）
             //这样就可以让焦点出现在最后，而不是出现在oldValue的最前面
             $(this).children("input").val(" ").focus().val(oldValue);
         }
-    );
+    ).first();
     //修改
 
-    $(document).off("blur");//解绑
+    //$(document).off("blur");//解绑
     //失去焦点时进行修改请求
     $(document).on("blur", ".modify", function () {
             //alert(oldValue);
@@ -287,7 +281,7 @@ $(function() {
                     if (result.status=="SUCCESS") {
                         $(".modify").parent().html(newValue);
                         //成功后将新输入的值 赋值给span
-                        alert("修改成功");
+                        //alert("修改成功");
                         //window.location.reload();
                     } else {
                         alert('修改失败');
@@ -296,12 +290,12 @@ $(function() {
                     }
 
                 }
-            });
+            }).first();
 
         }
-    );
+    ).first();
     //删除商品信息
-    $(".delProductBtn").click(function () {
+    $(document).on("click",".delProductBtn",function () {
         var productId=$(this).parents("tr").attr("id");
         $.ajax({
             url:"/product/delete/"+productId,
@@ -318,8 +312,8 @@ $(function() {
                     alert("删除失败");
                 }
             }
-        });
-    });
+        }).first();
+    }).first();
     //查询按钮
     $("#queryProductBtn").click(function () {
         var catalog1Id=$(".catalog1").val();
@@ -327,6 +321,10 @@ $(function() {
         var catalog2Id=$(".catalog2").val();
         //alert(catalog2Id);
         var catalog3Id=$(".catalog3").val();
+        if(catalog1Id==null||catalog1Id==""){
+            alert("请选择分类");
+            return;
+        }
         $.ajax({
             url:"/product/query",
             data:{
@@ -337,8 +335,132 @@ $(function() {
             dataType:"json",
             type:"POST",
             success:function (result) {
+                $(".product1").children().remove();
+                if(result.length!=0){
+                    var astring="";
+                    for(var i=0;i<result.length;i++){
+                        astring+="<tr id='"+result[i].id+"'>" +
+                            "<td style='text-align: center;line-height: 150px;'>"+ (i+1)+"</td>" +
+                            "<td style='text-align: center;line-height: 150px;'><span class='edit' onselectstart='return false' field='productName' >"+ result[i].productName+"</span></td>"+
+                            "<td style='text-align: center;line-height: 150px;'><span class='edit' onselectstart='return false' field='price'>"+ result[i].price+"</span></td>"+
+                            "<td style='text-align: center;line-height: 150px;'><span class='edit' onselectstart='return false' field='stock'>"+ result[i].stock+"</span></td>"+
+                            "<td style='text-align: center;line-height: 150px;'><span class='edit' onselectstart='return false' field='note'>"+ result[i].note+"</span></td>"+
+                            "<td style='text-align: center;line-height: 150px;'><img style='width: 150px;height: 150px' src='"+result[i].defaultImg+"'></td>"+
+                            "<td style='text-align: center;line-height: 150px;'>"+
+                            "<button type='button' class='btn bg-olive btn-xs modifyProductImgBtn'>图片设置</button>"+
+                            "<button style='margin-left: 30px' type='button' class='btn bg-olive btn-xs delProductBtn'>删除</button>"+
+                            "</td>"+"</tr>";
+                    }
+                    $(".qurProductList").removeAttr("hidden");
+                    $(".product1").append(astring);
+                }
 
             }
+        }).first();
+    }).first();
+    //图片设置
+    $(document).on("click",".modifyProductImgBtn",function () {
+        var productId=$(this).parents("tr").attr("id");
+        $(this).attr("disabled","disabled");
+        $(this).siblings().remove();
+        $(this).after("<button style='margin-left: 20px 'type='button' class='btn bg-olive btn-xs canelProductImgBtn'>取消</button>");
+        $.ajax({
+            url:"/product/modifyImg",
+            dataType:"json",
+            type:"POST",
+            data:{
+                "productId":productId
+            },
+            success:function (result) {
+                if(result.length!=0){
+                    var IString="";
+                    for(var i=0;i<result.length;i++){
+                        IString+="<tr class='aa' id='"+result[i].id+"' style='background-color:white; '><td colspan='4'style='text-align: center;line-height: 150px;'><img style='width: 150px;height: 150px' src='"+result[i].imgUrl+"'></td><td colspan='3'style='text-align: center;line-height: 150px;'>" +
+                            "<button style='margin-left: 20px 'class='btn bg-olive btn-xs setDefaultImgBtn'>设为默认图片</button>" +
+                            "<button style='margin-left: 20px 'class='btn bg-olive btn-xs delProductImgBtn'>删除</button>" +
+                            "</td></tr>";
+                    }
+                    $(".modifyProductImgBtn").parents("tr[id='"+productId+"']").after(IString);
+                }
+
+            }
+        }).first();
+    });
+    $(document).on("click",".canelProductImgBtn",function () {
+        $(".aa").slideUp();
+        $(this).siblings().removeAttr("disabled");
+        $(this).after("<button style='margin-left: 30px' type='button' class='btn bg-olive btn-xs delProductImgBtn'>删除</button>");
+        $(this).remove();
+    });
+    $(document).on("click",".setDefaultImgBtn",function () {
+        var id=$(this).parents("tr").attr("id");
+        //alert(id);
+        $.ajax({
+            url:"/product/modifyDefaultImg",
+            type:"POST",
+            dataType:"json",
+            data:{
+                "id":id
+            },
+            success:function (result) {
+                if(result.status=="SUCCESS"){
+                    alert("修改成功！");
+                    window.location.reload();
+                }else{
+                    alert("修改失败");
+                }
+            }
         });
+    });
+    $(document).on("click",".delProductImgBtn",function () {
+        var id=$(this).parents("tr").attr("id");
+        $.ajax({
+            url:"/product/delImgs",
+            dataType:"json",
+            type:"Post",
+            data:{
+                "id":id
+            },
+            success:function (result) {
+                if(result.status=="SUCCESS"){
+                    alert("删除成功！");
+                    window.location.reload();
+                }else{
+                    alert("删除失败");
+                }
+            }
+        }).first();
+    }).first();
+    //根据商品名查找
+    $("#search").click(function () {
+        var name=$(this).siblings(" input").val();
+        //alert(name)
+        if(name==""||name==null){return;}
+        $.ajax({
+            url:"/product/search",
+            type:"POST",
+            dataType:"json",
+            data:{
+                "productName":name
+            },
+            success:function (result) {
+                if(result!=null||result!=""){
+                    var astring="<tr id='"+result.id+"'>" +
+                            "<td style='text-align: center;line-height: 150px'>1</td>" +
+                            "<td style='text-align: center;line-height: 150px;'><span class='edit' onselectstart='return false' field='productName' >"+ result.productName+"</span></td>"+
+                            "<td style='text-align: center;line-height: 150px;'><span class='edit' onselectstart='return false' field='price'>"+ result.price+"</span></td>"+
+                            "<td style='text-align: center;line-height: 150px;'><span class='edit' onselectstart='return false' field='stock'>"+ result.stock+"</span></td>"+
+                            "<td style='text-align: center;line-height: 150px;'><span class='edit' onselectstart='return false' field='note'>"+ result.note+"</span></td>"+
+                            "<td style='text-align: center;line-height: 150px;'><img style='width: 150px;height: 150px' src='"+result.defaultImg+"'></td>"+
+                            "<td style='text-align: center;line-height: 150px;'>"+
+                            "<button type='button' class='btn bg-olive btn-xs modifyProductImgBtn'>图片设置</button>"+
+                            "<button style='margin-left: 30px' type='button' class='btn bg-olive btn-xs delProductBtn'>删除</button>"+
+                            "</td>"+"</tr>";
+                    }
+                    $(".qurProductList").removeAttr("hidden");
+                    $(".product1").children().remove();
+                    $(".product1").append(astring);
+                }
+        }).first();
     });
 })

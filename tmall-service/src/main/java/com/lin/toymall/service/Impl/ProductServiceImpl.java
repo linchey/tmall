@@ -2,11 +2,8 @@ package com.lin.toymall.service.Impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.lin.toymall.Service.ProductService;
-import com.lin.toymall.bean.PageBean;
-import com.lin.toymall.bean.PmsProduct;
-import com.lin.toymall.bean.PmsProductImage;
-import com.lin.toymall.service.mapper.ProductImageMapper;
-import com.lin.toymall.service.mapper.ProductMapper;
+import com.lin.toymall.bean.*;
+import com.lin.toymall.service.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
 
@@ -19,30 +16,35 @@ public class ProductServiceImpl implements ProductService {
     ProductMapper productMapper;
     @Autowired
     ProductImageMapper productImageMapper;
+    @Autowired
+    PmsCatalog1Mapper catalog1Mapper;
+    @Autowired
+    PmsCatalog2Mapper catalog2Mapper;
+    @Autowired
+    PmsCatalog3Mapper catalog3Mapper;
+    /*添加商品*/
     @Override
     public void addProduct(PmsProduct product) {
         productMapper.insert( product );
     }
-
+    //通过名字查找商品id
     @Override
     public String findIdByProName(String productName) {
         return productMapper.selectIdByName(productName);
     }
-
+    //添加商品图片
     @Override
     public void addProductImag(PmsProductImage productImage) {
         productImageMapper.insert( productImage );
     }
-
+    //判断商品是否存在
     @Override
     public boolean isExitProduct(String productName) {
         String id=findIdByProName( productName );
         if(id!=null)return true;
         return false;
     }
-
-
-
+    //封装成页面
     @Override
     public PageBean wrapPage(int totalCount, int currentPage) {
         PageBean pageBean = new PageBean();
@@ -62,7 +64,7 @@ public class ProductServiceImpl implements ProductService {
 
         return pageBean;
     }
-
+//修改商品名字
     @Override
     public void modifyProName(String id, String newValue) {
         PmsProduct product=new PmsProduct();
@@ -72,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
         example.createCriteria().andEqualTo("id", product.getId());
         productMapper.updateByExampleSelective(product,example);
     }
-
+//修改商品价格
     @Override
     public void modifyProPrice(String id, String newValue) {
         PmsProduct product=new PmsProduct();
@@ -83,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
         productMapper.updateByExampleSelective(product,example);
 
     }
-
+//修改库存
     @Override
     public void modifyProStock(String id, String newValue) {
         PmsProduct product=new PmsProduct();
@@ -93,7 +95,7 @@ public class ProductServiceImpl implements ProductService {
         example.createCriteria().andEqualTo("id", product.getId());
         productMapper.updateByExampleSelective(product,example);
     }
-
+//修改商品描述
     @Override
     public void modifyProNote(String id, String newValue) {
         PmsProduct product=new PmsProduct();
@@ -103,18 +105,76 @@ public class ProductServiceImpl implements ProductService {
         example.createCriteria().andEqualTo("id", product.getId());
         productMapper.updateByExampleSelective(product,example);
     }
-
+//删除商品
     @Override
     public void delProduct(String id) {
         productMapper.deleteByPrimaryKey( id );
     }
-
+//通过分类级别查询商品
     @Override
     public List<PmsProduct> qurProduct(String catalog1Id, String catalog2Id, String catalog3Id) {
 
         return productMapper.selectProByCatalog(catalog1Id,catalog2Id,catalog3Id);
     }
+//删除商品图片
+    @Override
+    public void delProductImges(String id) {
+        List<PmsProductImage> imgs=findImgeByProId( id );
+        if(imgs!=null){
+            for(PmsProductImage image:imgs){
+                productImageMapper.deleteByPrimaryKey( image.getId() );
+            }
+        }
 
+    }
+//通过商品id查找所有图片
+    @Override
+    public List<PmsProductImage> findImgeByProId(String productId) {
+        List<PmsProductImage>imgs=productImageMapper.selectByProId(productId);
+        return imgs;
+    }
+
+    @Override
+    public PmsProductImage findImageById(String id) {
+        return productImageMapper.selectByPrimaryKey( id );
+    }
+
+    @Override
+    public PmsProduct findProductById(String productId) {
+        return productMapper.selectByPrimaryKey( productId );
+    }
+
+    @Override
+    public void modifyDefImg(PmsProduct product) {
+        productMapper.updateByPrimaryKey( product );
+    }
+
+    @Override
+    public void delImge(String id) {
+        productImageMapper.deleteByPrimaryKey( id );
+    }
+
+    @Override
+    public PmsProduct findProByName(String name) {
+        return productMapper.selectBySearch(name);
+    }
+
+    @Override
+    public PmsCatalog1 findCatalog1ById(String id) {
+        return catalog1Mapper.selectByPrimaryKey( id );
+    }
+
+    @Override
+    public PmsCatalog2 findCatalog2ById(String id) {
+        return catalog2Mapper.selectByPrimaryKey( id );
+    }
+
+    @Override
+    public PmsCatalog3 findCatalog3ById(String id) {
+        return catalog3Mapper.selectByPrimaryKey( id );
+    }
+
+    //查找第i页的商品
     @Override
     public PageBean<PmsProduct> findProductByPage(int currPage) {
         HashMap<String,Object> map = new HashMap<String,Object>();

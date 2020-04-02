@@ -26,19 +26,10 @@
 <body>
 <!--导航栏-->
 <section id="page-part1">
-    <div class="navbar navbar-default">
+    <div class="navbar navbar-default" >
         <div class="container">
         <!--小屏幕图标-->
             <div th:replace="user/header::weclome"></div>
-            <div class="navbar-collapse collapse" >
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a style="cursor: pointer;padding: 0px;">我的学习</a></li>
-                    <li><a th:href="@{myInformation}" style="cursor: pointer;padding: 0px;"><i class="glyphicon glyphicon-user"></i>个人中心</a></li>
-                    <li><a style="cursor: pointer;padding: 0px;">我的订单</a></li>
-                    <li><a th:href="@{resetPanel}" style="cursor: pointer;padding: 0px;">密码修改</a></li>
-                    <li style="border-right: none"><a th:href="@{userAddress}" style="cursor: pointer;padding: 0px;">地址管理</a></li>
-            </ul>
-        </div>
     </div>
 </div>
 </section>
@@ -55,14 +46,9 @@
                     <i class="glyphicon glyphicon-shopping-cart"></i>
                     <a>购物车</a>
                 </div>
-
-
             </div>
-
         </div>
-
     </div>
-
 </section>
 <section id="page-part3">
     <div class="container">

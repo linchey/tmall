@@ -8,13 +8,13 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
      </button>
-     <a th:href="@{login}">请登录</a>
-     <a th:href="@{toRegister}">免费注册</a>
+     <a th:href="@{/user/login}">请登录</a>
+     <a th:href="@{/user/toRegister}">免费注册</a>
    </div>
    <div class="navbar-header" th:unless="${session.umsMember == null}">
      <span>您好！</span>
      <span th:text="${session.umsMember.getUsername()}"></span>
-     <a th:href="@{logout}">退出</a>
+     <a th:href="@{/user/logout}">退出</a>
      <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
@@ -22,4 +22,14 @@
      </button>
 
    </div>
+    <div class="navbar-collapse collapse" >
+        <ul class="nav navbar-nav navbar-right">
+            <li><a style="cursor: pointer;padding: 0px;">我的学习</a></li>
+            <li><a th:href="@{/user/myInformation}" style="cursor: pointer;padding: 0px;"><i class="glyphicon glyphicon-user"></i>个人中心</a></li>
+            <li><a style="cursor: pointer;padding: 0px;">我的订单</a></li>
+            <li><a th:href="@{/user/resetPanel}" style="cursor: pointer;padding: 0px;">密码修改</a></li>
+            <li style="border-right: none"><a th:href="@{/user/userAddress}" style="cursor: pointer;padding: 0px;">地址管理</a></li>
+    </ul>
+</div>
+
 </div>

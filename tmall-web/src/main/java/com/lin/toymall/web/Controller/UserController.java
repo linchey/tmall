@@ -46,6 +46,11 @@ public class UserController {
         mv.setViewName("user/index");
         return mv;
     }
+    @GetMapping("productDetail")
+    ModelAndView test(ModelAndView mv){
+        mv.setViewName( "user/productDetail" );
+        return mv;
+    }
     /*主页*/
     @GetMapping("/home")
     public ModelAndView home(){

@@ -15,4 +15,6 @@ public interface ProductMapper  extends Mapper<PmsProduct> {
     List<PmsProduct> selectProductPage(HashMap<String, Object> map);
 
     List<PmsProduct> selectProByCatalog(@Param( "catalog1Id" ) String catalog1Id, @Param( "catalog2Id" )String catalog2Id, @Param( "catalog3Id" )String catalog3Id);
+
+    PmsProduct selectBySearch(@Param( "search" ) String search);
 }

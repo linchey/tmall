@@ -78,6 +78,7 @@ public class ProductController {
         result.setMessage("成功");
         return JSON.toJSONString(result);
     }
+    //修改商品信息
     @PostMapping("modify")
     @ResponseBody
     public  String modifyProduct(@RequestParam(value = "id") String id,@RequestParam(value = "field")String field,@RequestParam(value = "newValue")String newValue){
@@ -110,19 +111,60 @@ public class ProductController {
         result.setMessage("失败");
         return JSON.toJSONString(result);
     }
+    /*删除商品信息*/
     @PostMapping("delete/{id}")
     @ResponseBody
     public String delProduct(@PathVariable("id") String id){
         ResultBase result=new ResultBase();
+
+        //删除该商品的所有图片
+        productService.delProductImges(id);
         productService.delProduct(id);
         result.setStatus( Status.SUCCESS);
         result.setMessage("成功");
         return JSON.toJSONString(result);
     }
+    /*根据分类查商品*/
     @PostMapping("/query")
     @ResponseBody
     public  List<PmsProduct> queryProduct(@RequestParam("catalog1Id")String catalog1Id,@RequestParam("catalog2Id")String catalog2Id,@RequestParam("catalog3Id")String catalog3Id){
         List<PmsProduct> products=productService.qurProduct(catalog1Id,catalog2Id,catalog3Id);
         return products;
     }
+    /*修改图片信息*/
+    @PostMapping("modifyImg")
+    @ResponseBody
+    public List<PmsProductImage> modifyImg(@RequestParam("productId") String productId){
+        List<PmsProductImage> productImages=productService.findImgeByProId(productId);
+        return  productImages;
+    }
+    /*设置默认图片*/
+    @PostMapping("modifyDefaultImg")
+    @ResponseBody
+    public String modifyDefaultImg(@RequestParam("id") String id){
+        ResultBase result=new ResultBase();
+        PmsProductImage productImage=productService.findImageById(id);
+        PmsProduct product=productService.findProductById(productImage.getProductId());
+        product.setDefaultImg( productImage.getImgUrl() );
+         productService.modifyDefImg(product);
+        result.setStatus( Status.SUCCESS);
+        result.setMessage("成功");
+        return JSON.toJSONString(result);
+    }
+    @PostMapping("delImgs")
+    @ResponseBody
+    public String delDefaultImg(@RequestParam("id") String id){
+        ResultBase result=new ResultBase();
+        productService.delImge( id );
+        result.setStatus( Status.SUCCESS);
+        result.setMessage("成功");
+        return JSON.toJSONString(result);
+    }
+    @PostMapping("search")
+    @ResponseBody
+    public PmsProduct search(@RequestParam("productName") String productName){
+        PmsProduct product=productService.findProByName(productName);
+        return  product;
+    }
+
 }

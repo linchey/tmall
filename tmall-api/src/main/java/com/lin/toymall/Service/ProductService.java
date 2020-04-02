@@ -1,8 +1,6 @@
 package com.lin.toymall.Service;
 
-import com.lin.toymall.bean.PageBean;
-import com.lin.toymall.bean.PmsProduct;
-import com.lin.toymall.bean.PmsProductImage;
+import com.lin.toymall.bean.*;
 
 import java.util.List;
 
@@ -28,4 +26,24 @@ public interface ProductService {
     void delProduct(String id);
 
     List<PmsProduct> qurProduct(String catalog1Id, String catalog2Id, String catalog3Id);
+
+    void delProductImges(String id);
+
+    List<PmsProductImage> findImgeByProId(String productId);
+
+    PmsProductImage findImageById(String id);
+
+    PmsProduct findProductById(String productId);
+
+    void modifyDefImg(PmsProduct product);
+
+    void delImge(String id);
+
+    PmsProduct findProByName(String name);
+
+    PmsCatalog1 findCatalog1ById(String id);
+
+    PmsCatalog2 findCatalog2ById(String id);
+
+    PmsCatalog3 findCatalog3ById(String id);
 }

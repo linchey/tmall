@@ -4,6 +4,7 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PmsProduct implements Serializable {
     @Id
@@ -17,11 +18,23 @@ public class PmsProduct implements Serializable {
     private  String note;
     private String defaultImg;
 
+
+
     @Transient
     public ArrayList<String> productImages;
 
     public ArrayList<String> getProductImages() {
         return productImages;
+    }
+    @Transient
+    public List<PmsProductImage> pmsProductImageList;
+
+    public List<PmsProductImage> getPmsProductImageList() {
+        return pmsProductImageList;
+    }
+
+    public void setPmsProductImageList(List<PmsProductImage> pmsProductImageList) {
+        this.pmsProductImageList = pmsProductImageList;
     }
 
     public void setProductImages(ArrayList<String> productImages) {
