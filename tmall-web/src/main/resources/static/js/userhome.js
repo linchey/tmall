@@ -34,4 +34,21 @@ $(function(){
         $('.cat_subcont').removeClass('active');
         $('.item1').removeClass('active');
     });
+    //商品二级分类
+    $(".fore_list>h3 a").click(function () {
+        var catalog2Id=$(this).attr("value");
+       // alert(id);
+        $(this).attr("href","/search/catalog2?catalog2Id="+catalog2Id);
+
+    });
+    //商品三级分类
+    $(".fore_list >ul li a ").click(function () {
+        var catalog3Id=$(this).attr("value");
+        //alert(id);
+        $(this).attr("href","/search/catalog3?catalog3Id="+catalog3Id);
+    });
+ $("#submit").click(function () {
+     var search=$("#search").val();
+     $(this).attr("href","/search/productName?search="+search);
+ })
 })

@@ -2,19 +2,22 @@ package com.lin.toymall.web.Controller;
 
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSON;
 import com.lin.toymall.Service.AdminService;
+import com.lin.toymall.Service.OrderService;
 import com.lin.toymall.Service.UserService;
 import com.lin.toymall.bean.Admin;
+import com.lin.toymall.bean.OmsOrder;
+import com.lin.toymall.bean.OmsOrderItem;
 import com.lin.toymall.bean.UmsMember;
 import com.lin.toymall.web.Util.EncryptHelper;
 import com.lin.toymall.web.Util.EncryptType;
+import com.lin.toymall.web.Util.ResultBase;
+import com.lin.toymall.web.Util.Status;
 import com.lin.toymall.web.VO.LoginVO;
 import com.lin.toymall.web.VO.ResetPasswordVO;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +32,8 @@ public class AdminController {
    AdminService adminService;
    @Reference
     UserService userService;
+   @Reference
+    OrderService orderService;
    @GetMapping("hello")
    public ModelAndView hello(ModelAndView mv){
        mv.setViewName("admin/hello");
@@ -179,12 +184,43 @@ public class AdminController {
         mv.setViewName("admin/userList");
         return mv;
     }
-    /*添加用户*/
-    /*分类管理*/
-/*    @GetMapping("catalogManage")
-    public ModelAndView catalogManage(ModelAndView mv){
-        mv.setViewName("admin/product/catalog");
-        return mv;
-    }*/
+
+    /**
+     * 订单列表
+     * @return
+     */
+    @GetMapping ("orderList")
+    public  ModelAndView  getOrderList(){
+        ModelAndView mv=new ModelAndView( "admin/order/orderView" );
+        List<OmsOrder>   omsOrders=orderService.findAll();
+        mv.addObject( "orderList" ,omsOrders);
+        return  mv;
+
+    }
+
+    /**
+     * 查询订单详情
+     * @param orderId
+     * @return
+     */
+    @GetMapping("orderQuery")
+    @ResponseBody
+    public String getOrderdetail(String orderId){
+       List<OmsOrderItem> omsOrderItems=orderService.getOrderItems(orderId);
+        return JSON.toJSONString(omsOrderItems);
+    }
+    @GetMapping("delOrder")
+    @ResponseBody
+    public String delOrder(String orderId){
+        ResultBase resultBase=new ResultBase();
+        String result=orderService.delOrder(orderId);
+        if("success".equals( result )){
+            resultBase.setStatus( Status.SUCCESS );
+        }else{
+            resultBase.setStatus( Status.FAIL );
+        }
+        return JSON.toJSONString(resultBase);
+    }
+
 }
 

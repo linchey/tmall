@@ -221,4 +221,11 @@ public class CatalogServiceImpl implements CatalogService {
     public void delCatalog1(String catalog1Id) {
         catalog1Mapper.deleteByPrimaryKey( catalog1Id );
     }
+
+    @Override
+    public String findNameByCatlog3Id(String catalog3Id) {
+        PmsCatalog3 catalog3=catalog3Mapper.selectByPrimaryKey( catalog3Id );
+        String name=catalog3.getName();
+        return name;
+    }
 }

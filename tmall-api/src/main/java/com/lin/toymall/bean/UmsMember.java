@@ -26,8 +26,6 @@ public class UmsMember implements Serializable {
     @Column
     private int  gender;
     @Column
-    private LocalDate birthday;
-    @Column
     private String city;
     @Column
     private String job;
@@ -109,17 +107,13 @@ public class UmsMember implements Serializable {
         return createTime;
     }
 
-    public LocalDate getBirthday() {
-        return birthday;
-    }
+
 
     public void setCreateTime(LocalDate createTime) {
         this.createTime = createTime;
     }
 
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
+
 
     public void setModifyTime(LocalDate modifyTime) {
         this.modifyTime = modifyTime;

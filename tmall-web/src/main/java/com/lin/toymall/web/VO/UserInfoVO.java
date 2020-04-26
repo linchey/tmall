@@ -1,20 +1,14 @@
 package com.lin.toymall.web.VO;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.io.Serializable;
-import java.time.LocalDate;
 
 public class UserInfoVO implements Serializable {
     private String username;//用户名
     private String nickname;//昵称
     private String phone;//电话
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
-    private LocalDate createTime;//注册时间
     private String icon;//头像
-    private int  gender;//性别 0->未知；1->男；2->女',
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
-    private LocalDate birthday;//生日
+    private int  gender;//性别 0-->男；1->女',
+
     private String city;//所在城市
     private String job;//职业
     private String signature;//个性签名
@@ -27,6 +21,8 @@ public class UserInfoVO implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+
+
 
     public String getUsername() {
         return username;
@@ -52,9 +48,7 @@ public class UserInfoVO implements Serializable {
         this.phone = phone;
     }
 
-    public LocalDate getCreateTime() {
-        return createTime;
-    }
+
 
     public String getIcon() {
         return icon;
@@ -72,17 +66,6 @@ public class UserInfoVO implements Serializable {
         this.gender = gender;
     }
 
-    public void setCreateTime(LocalDate createTime) {
-        this.createTime = createTime;
-    }
-
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
 
     public String getCity() {
         return city;

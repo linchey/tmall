@@ -4,18 +4,21 @@ package com.lin.toymall.web.Controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.lin.toymall.Service.CatalogService;
+import com.lin.toymall.Service.OrderService;
 import com.lin.toymall.Service.UserAddressService;
 import com.lin.toymall.Service.UserService;
+import com.lin.toymall.annotations.LoginRequired;
 import com.lin.toymall.bean.*;
+import com.lin.toymall.util.CookieUtil;
 import com.lin.toymall.web.Util.EncryptHelper;
 import com.lin.toymall.web.Util.EncryptType;
 import com.lin.toymall.web.Util.ResultBase;
 import com.lin.toymall.web.Util.Status;
 import com.lin.toymall.web.Util.validatecode.GraphicHelper;
-import com.lin.toymall.web.VO.LoginVO;
 import com.lin.toymall.web.VO.RegisterVO;
 import com.lin.toymall.web.VO.ResetKeyVO;
 import com.lin.toymall.web.VO.UserInfoVO;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +42,8 @@ public class UserController {
     UserAddressService userAddressService;
     @Reference
     CatalogService catalogService;
+    @Reference
+    OrderService orderService;
     /*测试*/
     @GetMapping("/index")
     public ModelAndView index(){
@@ -53,7 +58,8 @@ public class UserController {
     }
     /*主页*/
     @GetMapping("/home")
-    public ModelAndView home(){
+    @LoginRequired(loginSuccess = false)
+    public ModelAndView home(HttpServletRequest request){
         ModelAndView mv=new ModelAndView();
         List<PmsCatalog1> catalog1List = catalogService.getCatalog1();
         for (PmsCatalog1 catalog1:catalog1List) {
@@ -65,6 +71,20 @@ public class UserController {
             catalog1.setCatalog2List(catalog2List);
         }
         mv.addObject("catalogList",catalog1List);
+        UmsMember umsMember=new UmsMember();
+
+        String username=(String) request.getAttribute( "username" );
+        if(StringUtils.isNotBlank( username )){
+            umsMember.setUsername(  username);
+        }
+        String id=(String) request.getAttribute( "memberId" );
+       if (StringUtils.isNotBlank( username )){
+           umsMember.setId( id );
+       }
+       if(StringUtils.isNotBlank( username )&&StringUtils.isNotBlank( username )){
+           HttpSession session=request.getSession();
+           session.setAttribute( "umsMember",umsMember );
+       }
         mv.setViewName("user/home");
         return mv;
     }
@@ -146,11 +166,14 @@ public class UserController {
     /*用户登录功能*/
     //登录页面
     @GetMapping("/login")
-    public ModelAndView login(){
+    public ModelAndView login(String ReturnUrl){
         ModelAndView mv=new ModelAndView();
+        mv.addObject( "ReturnUrl",ReturnUrl );
         mv.setViewName("user/login");
         return mv;
     }
+    /*
+    //该到mallPassPortController验证
     //登录验证
     @PostMapping("loginCheck")
     public ModelAndView loginCheck(HttpServletRequest request, @Valid LoginVO loginVO, Errors errors){
@@ -183,59 +206,68 @@ public class UserController {
         session.setAttribute("umsMember",umsMember);
         mv.setViewName("redirect:home");
         return mv;
-    }
+    }*/
     /*用户个人信息*/
     @GetMapping("myInformation")
+    @LoginRequired(loginSuccess = true)
     @ResponseBody
     public ModelAndView myInfomation(HttpServletRequest request){
         ModelAndView mv=new ModelAndView();
-        HttpSession session=request.getSession();
-        UmsMember umsMember=(UmsMember)session.getAttribute("umsMember");
-        if(umsMember==null){
-          mv.setViewName("user/login");
-          return mv;
+        UmsMember umsMember=new UmsMember();
+        String username=(String) request.getAttribute( "username" );
+        String id=(String) request.getAttribute( "memberId" );
+        if(StringUtils.isNotBlank( username )&&StringUtils.isNotBlank( username )){
+            umsMember.setUsername( username );
+            umsMember.setId( id );
+            HttpSession session=request.getSession();
+            session.setAttribute( "umsMember",umsMember );
         }
         UserInfoVO userInfoVO=new UserInfoVO();
-        userInfoVO.setUsername(umsMember.getUsername());
-        userInfoVO.setPhone(umsMember.getPhone());
-        userInfoVO.setBirthday(umsMember.getBirthday());
-        userInfoVO.setGender(umsMember.getGender());
-        userInfoVO.setCity(umsMember.getCity());
-        userInfoVO.setCreateTime(umsMember.getCreateTime());
-        userInfoVO.setIcon(umsMember.getIcon());
-        userInfoVO.setNickname(umsMember.getNickname());
-        userInfoVO.setSignature(umsMember.getSignature());
-        userInfoVO.setJob(umsMember.getJob());
-        userInfoVO.setEmail(umsMember.getEmail());
-        mv.addObject("userInfoVO",userInfoVO);
+        if(umsMember!=null){
+            UmsMember user=userService.findUser( umsMember );
+            userInfoVO.setUsername(user.getUsername());
+            userInfoVO.setPhone(user.getPhone());
+
+            userInfoVO.setGender(user.getGender());
+            userInfoVO.setCity(user.getCity());
+            userInfoVO.setIcon(user.getIcon());
+            userInfoVO.setNickname(user.getNickname());
+            userInfoVO.setSignature(user.getSignature());
+            userInfoVO.setJob(user.getJob());
+            userInfoVO.setEmail(user.getEmail());
+            mv.addObject("userInfoVO",userInfoVO);
+        }
+
         mv.setViewName("user/myInformation");
         return mv;
     }
     /*个人信息修改*/
     @GetMapping("toUpdateUser")
-    public ModelAndView updateInfo(){
+    public ModelAndView updateInfo(HttpServletRequest request){
        ModelAndView mv=new ModelAndView() ;
-
+       HttpSession session=request.getSession();
+       UmsMember umsMember=(UmsMember) session.getAttribute( "umsMember" );
+       UmsMember user=userService.findUser( umsMember );
+       mv.addObject( "user",user );
        mv.setViewName("user/modifyInfo");
        return mv;
     }
     @PostMapping("modifyInfo")
-    public ModelAndView modifyInfo(UmsMember umsMember, BindingResult bindingResult){
+    public ModelAndView modifyInfo(UserInfoVO userInfoVO, BindingResult bindingResult){
         ModelAndView mv=new ModelAndView();
+        UmsMember umsMember=new UmsMember();
+        umsMember.setUsername(userInfoVO.getUsername());
+        umsMember.setPhone(userInfoVO.getPhone());
+
+        umsMember.setGender(userInfoVO.getGender());
+        umsMember.setCity(userInfoVO.getCity());
+        umsMember.setIcon(userInfoVO.getIcon());
+        umsMember.setNickname(userInfoVO.getNickname());
+        umsMember.setSignature(userInfoVO.getSignature());
+        umsMember.setJob(userInfoVO.getJob());
+        umsMember.setEmail(userInfoVO.getEmail());
         userService.modifyInfo(umsMember);
-        UserInfoVO userInfoVO=new UserInfoVO();
-        userInfoVO.setUsername(umsMember.getUsername());
-        userInfoVO.setPhone(umsMember.getPhone());
-        userInfoVO.setBirthday(umsMember.getBirthday());
-        userInfoVO.setGender(umsMember.getGender());
-        userInfoVO.setCity(umsMember.getCity());
-        userInfoVO.setCreateTime(umsMember.getCreateTime());
-        userInfoVO.setIcon(umsMember.getIcon());
-        userInfoVO.setNickname(umsMember.getNickname());
-        userInfoVO.setSignature(umsMember.getSignature());
-        userInfoVO.setJob(umsMember.getJob());
-        userInfoVO.setEmail(umsMember.getEmail());
-        mv.addObject("userInfoVO",userInfoVO);
+
         mv.setViewName("user/myInformation");
         return mv;
     }
@@ -304,24 +336,39 @@ public class UserController {
     }
     /*登出*/
     @GetMapping("logout")
-    public ModelAndView logout(HttpServletRequest request){
+    @LoginRequired(loginSuccess = false)
+    public ModelAndView logout(HttpServletRequest request,HttpServletResponse response){
         ModelAndView mv=new ModelAndView();
         HttpSession session=request.getSession();
+        UmsMember umsMember= (UmsMember) session.getAttribute("umsMember");
+        String memberId=umsMember.getId();
+        CookieUtil.deleteCookie(request,response,"oldToken");
         session.removeAttribute("umsMember");
+        userService.delToken(memberId);
+
         mv.setViewName("redirect:home");
         return mv;
     }
     /*用户地址管理*/
     @GetMapping ( "userAddress")
-    public ModelAndView userAddress(ModelAndView mv, HttpSession session) {
-        UmsMember umsMember= (UmsMember) session.getAttribute("umsMember");
-        if(umsMember==null){mv.setViewName("user/login"); return mv;}
-        String id=umsMember.getId();
-        List<UmsMemberReceiveAddress> userAddressList = userAddressService.findByUserId(id);
-
-        mv.addObject("userAddressList", userAddressList);
-        mv.setViewName("user/userAddress");
-        return mv;
+    @LoginRequired(loginSuccess = true)
+    public ModelAndView userAddress(ModelAndView mv, HttpServletRequest request,HttpSession session) {
+        String memberId=(String)request.getAttribute( "memberId" ) ;
+        String username=(String)request.getAttribute( "username" ) ;
+        List<UmsMemberReceiveAddress> userAddressList=new ArrayList<>(  );
+        UmsMember umsMember=new UmsMember();
+        if(StringUtils.isNotBlank( memberId )&&StringUtils.isNotBlank( username )){
+            umsMember.setUsername( username );
+            umsMember.setId( memberId );
+            session.setAttribute( "umsMember",umsMember );
+            userAddressList= userAddressService.findByUserId(memberId);
+            mv.addObject("userAddressList", userAddressList);
+            mv.setViewName("user/userAddress");
+            return mv;
+        }else{
+            mv.setViewName("user/login");
+            return mv;
+        }
     }
 
     /*新增地址*/
@@ -364,5 +411,29 @@ public class UserController {
         result.setMessage("修改成功");
         return JSON.toJSONString(result);
     }
+    @GetMapping("myOrder")
+    @LoginRequired(loginSuccess = true)
+    public ModelAndView myOrder(HttpServletRequest request,HttpSession session){
+        ModelAndView mv=new ModelAndView( "user/order/myOrder" );
+        String memberId=(String)request.getAttribute( "memberId" );
+        String username=(String)request.getAttribute( "username" );
+        if(StringUtils.isNotBlank( memberId )){
+            UmsMember umsMember=new UmsMember();
+            umsMember.setUsername( username );
+            umsMember.setId( memberId );
+            session.setAttribute( "umsMember",umsMember );
+            List<OmsOrder>orders=orderService.findAllOrder(memberId);
+            List<OmsOrderItem> omsOrderItems=new ArrayList<>(  );
+            for (OmsOrder omsOrder:orders){
+                String orderId=omsOrder.getId();
+                omsOrderItems=orderService.getOrderItems( orderId );
+                omsOrder.setOmsOrderItems( omsOrderItems );
+            }
+            mv.addObject( "myOrders",orders );
+            return mv;
+        }
 
+        mv.setViewName( "user/login" );
+        return mv;
+    }
 }

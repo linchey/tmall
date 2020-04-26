@@ -62,23 +62,25 @@ a:hover{
     font-size: 15px;
     border: 2px solid #f03030
 }
-.search button{
+.search .search1{
 
     color: white;
     background-color: #f03030;
     height: 100%;
     border: none;
+    font-size:20px;
 }
 
-.search button:hover,
-.search button:focus
+.search .search1:hover,
+.search .search1:focus
 
 {
     outline: none;
     background-color: crimson;
 }
-.glyphicon-search{
-    font-size: 15px;
+ .search1 .glyphicon-search{
+     margin-top: 10px;
+     margin-left: 18px;
 }
 #shopping-cart-part{
     text-align: center;

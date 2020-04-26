@@ -17,4 +17,12 @@ public interface UserService {
     void resetPassword(String password, String username);
 
     void modifyInfo(UmsMember umsMember);
+
+    UmsMember login(UmsMember umsMember);
+
+    void addUserToken(String token, String memberId);
+
+    void delToken(String memberId);
+
+    UmsMember findUser(UmsMember umsMember);
 }

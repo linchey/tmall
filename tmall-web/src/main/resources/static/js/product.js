@@ -33,8 +33,10 @@ $(function() {
     //一级分类点击事件
 
     $(document).on("click",".catalog1",function () {
-
+        var v=$(this).val()
         $(this).find(" option:selected").css("font-weight","bold")
+
+        $(this).empty()
         $.ajax( {
             url:"/catalog/getCatalog1",
             method:"get",
@@ -43,12 +45,12 @@ $(function() {
             dataType:"json",
             success:function (result) {
                 //alert(result[0].name);
+
                 if(result.length<1){
                     $(".catalog1 option").remove();
                     $(".catalog1" ).append("<option value='0' selected disabled>NULL</option>");
                     return;
                 }
-
                 var optionString="";
                 for(var i=0;i<result.length;i++){
                     // alert(result[i].id);
@@ -57,15 +59,18 @@ $(function() {
                 }
                // $(".catalog1 option[value='0']" ).removeAttr(selected);
 
+                $(".catalog1").append("<option value='0'  disabled>请选择</option>")
                 $(".catalog1").append(optionString);
 
+                $(".catalog1").val(v)
+                $(".catalog1").find(" option:selected").css("font-weight","bold")
             }
         })
     }).first()
     //一级分类change事件
     $(document).on("change",".catalog1",function () {
         var catalog1Id=$(this).val();
-        $(this).children(" option[value='"+catalog1Id+"']").attr("selected");
+        $(this).children(" option[value='"+catalog1Id+"']").prop("selected");
         $(this).find(" option:selected").siblings().css("font-weight","normal");
         catalog1Id=$(".catalog1").val()
 
@@ -95,6 +100,7 @@ $(function() {
                     optionString+="<option value='"+result[i].id+"'>"+result[i].name+"</option>";
 
                 }
+              //  $(".catalog1" ).html("<option value='0'  disabled>请选择</option>");
                 $(".catalog2" ).append("<option value='0' selected disabled>请选择</option>");
                 $(".catalog2").append(optionString);
                 $(".catalog2").val(0);
@@ -444,23 +450,26 @@ $(function() {
                 "productName":name
             },
             success:function (result) {
-                if(result!=null||result!=""){
-                    var astring="<tr id='"+result.id+"'>" +
-                            "<td style='text-align: center;line-height: 150px'>1</td>" +
-                            "<td style='text-align: center;line-height: 150px;'><span class='edit' onselectstart='return false' field='productName' >"+ result.productName+"</span></td>"+
-                            "<td style='text-align: center;line-height: 150px;'><span class='edit' onselectstart='return false' field='price'>"+ result.price+"</span></td>"+
-                            "<td style='text-align: center;line-height: 150px;'><span class='edit' onselectstart='return false' field='stock'>"+ result.stock+"</span></td>"+
-                            "<td style='text-align: center;line-height: 150px;'><span class='edit' onselectstart='return false' field='note'>"+ result.note+"</span></td>"+
-                            "<td style='text-align: center;line-height: 150px;'><img style='width: 150px;height: 150px' src='"+result.defaultImg+"'></td>"+
-                            "<td style='text-align: center;line-height: 150px;'>"+
-                            "<button type='button' class='btn bg-olive btn-xs modifyProductImgBtn'>图片设置</button>"+
-                            "<button style='margin-left: 30px' type='button' class='btn bg-olive btn-xs delProductBtn'>删除</button>"+
-                            "</td>"+"</tr>";
+                if (result.length != 0) {
+                    var astring="";
+                    for (var i = 0; i < result.length; i++) {
+                            astring += "<tr id='" + result[i].id + "'>" +
+                            "<td style='text-align: center;line-height: 150px;'>"+ (i+1)+"</td>"  +
+                            "<td style='text-align: center;line-height: 150px;'><span class='edit' onselectstart='return false' field='productName' >" + result[i].productName + "</span></td>" +
+                            "<td style='text-align: center;line-height: 150px;'><span class='edit' onselectstart='return false' field='price'>" + result[i].price + "</span></td>" +
+                            "<td style='text-align: center;line-height: 150px;'><span class='edit' onselectstart='return false' field='stock'>" + result[i].stock + "</span></td>" +
+                            "<td style='text-align: center;line-height: 150px;'><span class='edit' onselectstart='return false' field='note'>" + result[i].note + "</span></td>" +
+                            "<td style='text-align: center;line-height: 150px;'><img style='width: 150px;height: 150px' src='" + result[i].defaultImg + "'></td>" +
+                            "<td style='text-align: center;line-height: 150px;'>" +
+                            "<button type='button' class='btn bg-olive btn-xs modifyProductImgBtn'>图片设置</button>" +
+                            "<button style='margin-left: 30px' type='button' class='btn bg-olive btn-xs delProductBtn'>删除</button>" +
+                            "</td>" + "</tr>";
                     }
                     $(".qurProductList").removeAttr("hidden");
                     $(".product1").children().remove();
                     $(".product1").append(astring);
                 }
+            }
         }).first();
     });
 })

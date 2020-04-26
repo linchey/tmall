@@ -3,6 +3,7 @@ package com.lin.toymall.bean;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ public class PmsProduct implements Serializable {
     @Id
     private String id;
     private  String productName;
-    private Double price;
+    private BigDecimal price;
     private  String stock;
     private String catalog3Id;
     private String catalog2Id;
@@ -75,11 +76,11 @@ public class PmsProduct implements Serializable {
         this.productName = productName;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

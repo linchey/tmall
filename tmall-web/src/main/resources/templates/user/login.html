@@ -27,50 +27,6 @@
 			}
 		})
 	})
-function checkInCorrect() {
-         var isSave = document.getElementById('rememberMe').checked;   //保存按键是否选中
-         if (isSave) {
-
-             var username = document.getElementById('username').value;
-             var password = document.getElementById('password').value;
-             if (username != "" && password != "") {
-                 SetCookie(username, password);
-             }
-          }
-    }
-
-    function SetCookie(username, password) {
-      var Then = new Date();
-      Then.setTime(Then.getTime() + 7*60*1000);
-      document.cookie = "username=" + username + "%%" + password + ";expires=" + Then.toGMTString();
-      }
-
-    function GetCookie() {
-        var nmpsd;
-        var nm;
-        var psd;
-        var cookieString = new String(document.cookie);
-        var cookieHeader = "username=";
-        var beginPosition = cookieString.indexOf(cookieHeader);
-        cookieString = cookieString.substring(beginPosition);
-        var ends = cookieString.indexOf(";");
-        if (ends != -1) {
-            cookieString = cookieString.substring(0, ends);
-        }
-        if (beginPosition > -1) {
-            nmpsd = cookieString.substring(cookieHeader.length);
-            if (nmpsd != "") {
-                beginPosition = nmpsd.indexOf("%%");
-                nm = nmpsd.substring(0, beginPosition);
-                psd = nmpsd.substring(beginPosition + 2);
-                document.getElementById('username').value = nm;
-                document.getElementById('password').value = psd;
-                if (nm != "" && psd != "") {
-                    document.getElementById('rememberme').checked = true;
-                }
-            }
-        }
-    }
 </script>
 </head>
 <body>
@@ -91,7 +47,7 @@ function checkInCorrect() {
 				<div class="tab-content" id="myTabContent">
 					<br />
 					<div class="tab-pane fade in active" id="home">
-					    <form METHOD="post" action="loginCheck">
+					    <form METHOD="post">
 						<div class="lab"><label><i class="glyphicon glyphicon-user" title="用户名"></i><input class="text" id="username" name="username" placeholder="用户名" type="text" /></label></div>
 
 						<div class="lab"><label><i class="glyphicon glyphicon-lock" title="密码"></i><input class="text" id="password" name="password" placeholder="密码" type="password" /><a class="glyphicon glyphicon-eye-close" id="close"></a></label></div>
@@ -99,7 +55,7 @@ function checkInCorrect() {
                         <!--/*@thymesVar id="checkInfo" type=""*/-->
                         <div aria-describedby="basic-addon0" id="checkInfo" style="color: red " th:text="${checkInfo}"></div>
 						<br />
-						<div><input class="btn btn-primary" id="login" type="submit" value="登录"  th:onclick="|javascript:checkInCorrect()|"/></div>
+						<div><a class="btn btn-primary" id="login" type="submit" href="javascript:submitLogin();">登 &nbsp; &nbsp;录</a></div>
 
 						</form>
 						<br />
@@ -113,7 +69,41 @@ function checkInCorrect() {
 			</div>
 		</div>
 		</div>
+		<input type="text" th:value="${ReturnUrl}" id="ReturnUrl" hidden>
     </div>
 
 </body>
+<script language="JavaScript">
+function submitLogin() {
+             var  username=$("#username").val();
+             var  password=$("#password").val();
+             var ReturnUrl=$("#ReturnUrl").val()
+             if(username==""&&password==""){
+                 $("#checkInfo").text("用户名和密码不能为空");
+                 return;
+             }
+             if(username==null||username==""){
+                 $("#checkInfo").text("用户名不能为空");
+                 return;
+             }
+             if(password==null||password==""){
+                 $("#checkInfo").text("密码不能为空");
+                 return;
+             }
+             if(username!=null && password!=null){
+                  $.post("/user/loginCheck1",{username:username,password:password},function(token) {
+                    //alert(token);
+                        if(token=="fail"){
+                          	alert("用户名或者密码错误");
+                          }else{
+                           // 验证token是否为空或者异常
+                           window.location.href=ReturnUrl+"?token="+token;
+                          }
+
+
+                  })
+             }
+ }
+
+</script>
 </html>

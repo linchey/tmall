@@ -7,6 +7,7 @@ import com.lin.toymall.service.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -79,7 +80,7 @@ public class ProductServiceImpl implements ProductService {
     public void modifyProPrice(String id, String newValue) {
         PmsProduct product=new PmsProduct();
         product.setId( id );
-        product.setPrice( Double.valueOf(  newValue) );
+        product.setPrice( BigDecimal.valueOf( Double.valueOf( newValue ) ));
         Example example = new Example(PmsProduct.class);
         example.createCriteria().andEqualTo("id", product.getId());
         productMapper.updateByExampleSelective(product,example);
@@ -155,8 +156,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PmsProduct findProByName(String name) {
-        return productMapper.selectBySearch(name);
+    public List<PmsProduct> findProByName(String name) {
+        List<PmsProduct> products=productMapper.selectBySearch( name);
+        return products;
     }
 
     @Override
@@ -172,6 +174,31 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public PmsCatalog3 findCatalog3ById(String id) {
         return catalog3Mapper.selectByPrimaryKey( id );
+    }
+
+    @Override
+    public List<PmsProduct> findProductBycata2(String catalog2Id) {
+        PmsProduct product=new PmsProduct();
+        product.setCatalog2Id( catalog2Id );
+        List<PmsProduct> products=productMapper.select( product );
+        return products;
+    }
+
+    @Override
+    public List<PmsProduct> findProductBycata3(String catalog3Id) {
+        PmsProduct product=new PmsProduct();
+        product.setCatalog3Id( catalog3Id );
+        List<PmsProduct> products=productMapper.select( product );
+        return products;
+    }
+
+    @Override
+    public boolean checkPrice(String productId, BigDecimal price) {
+        PmsProduct product=productMapper.selectByPrimaryKey( productId );
+        if(price.compareTo( product.getPrice() )==0){
+            return true;
+        }
+        return false;
     }
 
     //查找第i页的商品

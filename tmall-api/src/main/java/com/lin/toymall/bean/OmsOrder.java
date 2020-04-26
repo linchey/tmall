@@ -1,25 +1,48 @@
 package com.lin.toymall.bean;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class OmsOrder implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  String id;
     private  String memberId;
-    private  String orderId;
+    private  String orderCode;
     private Date createTime;
     private Date modifyTime;
-    private Double  totalAmount;
-    private Double finalAmount;
-    private  String addressId;
+    private BigDecimal  totalAmount;
+    private BigDecimal finalAmount;
+    private String receviceName;
+    private String receviceCity;
+    private String receviceDetailAddress;
+    private String recevicePostCode;
+    private String recevicePhone;
+    private String receviceProvince;
+    private String receviceRegion;
     private Date payTime;
     private Date postTime;
     private Date confirmTime;
-    private Integer   status;
+    private String   status;
     private String note;
 
+    private String memberName;
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+    @Transient
+    private List<OmsOrderItem> omsOrderItems;
     public String getId() {
         return id;
     }
@@ -36,12 +59,12 @@ public class OmsOrder implements Serializable {
         this.memberId = memberId;
     }
 
-    public String getOrderId() {
-        return orderId;
+    public String getOrderCode() {
+        return orderCode;
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
     }
 
     public Date getCreateTime() {
@@ -60,28 +83,20 @@ public class OmsOrder implements Serializable {
         this.modifyTime = modifyTime;
     }
 
-    public Double getTotalAmount() {
+    public BigDecimal getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(Double totalAmount) {
+    public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
     }
 
-    public Double getFinalAmount() {
+    public BigDecimal getFinalAmount() {
         return finalAmount;
     }
 
-    public void setFinalAmount(Double finalAmount) {
+    public void setFinalAmount(BigDecimal finalAmount) {
         this.finalAmount = finalAmount;
-    }
-
-    public String getAddressId() {
-        return addressId;
-    }
-
-    public void setAddressId(String addressId) {
-        this.addressId = addressId;
     }
 
     public Date getPayTime() {
@@ -108,11 +123,11 @@ public class OmsOrder implements Serializable {
         this.confirmTime = confirmTime;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -123,4 +138,69 @@ public class OmsOrder implements Serializable {
     public void setNote(String note) {
         this.note = note;
     }
+
+    public String getReceviceName() {
+        return receviceName;
+    }
+
+    public void setReceviceName(String receviceName) {
+        this.receviceName = receviceName;
+    }
+
+    public String getReceviceCity() {
+        return receviceCity;
+    }
+
+    public void setReceviceCity(String receviceCity) {
+        this.receviceCity = receviceCity;
+    }
+
+    public String getReceviceDetailAddress() {
+        return receviceDetailAddress;
+    }
+
+    public void setReceviceDetailAddress(String receviceDetailAddress) {
+        this.receviceDetailAddress = receviceDetailAddress;
+    }
+
+    public String getRecevicePostCode() {
+        return recevicePostCode;
+    }
+
+    public void setRecevicePostCode(String recevicePostCode) {
+        this.recevicePostCode = recevicePostCode;
+    }
+
+    public String getRecevicePhone() {
+        return recevicePhone;
+    }
+
+    public void setRecevicePhone(String recevicePhone) {
+        this.recevicePhone = recevicePhone;
+    }
+
+    public String getReceviceProvince() {
+        return receviceProvince;
+    }
+
+    public void setReceviceProvince(String receviceProvince) {
+        this.receviceProvince = receviceProvince;
+    }
+
+    public String getReceviceRegion() {
+        return receviceRegion;
+    }
+
+    public void setReceviceRegion(String receviceRegion) {
+        this.receviceRegion = receviceRegion;
+    }
+
+    public List<OmsOrderItem> getOmsOrderItems() {
+        return omsOrderItems;
+    }
+
+    public void setOmsOrderItems(List<OmsOrderItem> omsOrderItems) {
+        this.omsOrderItems = omsOrderItems;
+    }
+
 }

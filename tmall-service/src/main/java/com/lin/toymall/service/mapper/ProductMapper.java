@@ -16,5 +16,5 @@ public interface ProductMapper  extends Mapper<PmsProduct> {
 
     List<PmsProduct> selectProByCatalog(@Param( "catalog1Id" ) String catalog1Id, @Param( "catalog2Id" )String catalog2Id, @Param( "catalog3Id" )String catalog3Id);
 
-    PmsProduct selectBySearch(@Param( "search" ) String search);
+    List<PmsProduct> selectBySearch(@Param( "search" ) String search);
 }

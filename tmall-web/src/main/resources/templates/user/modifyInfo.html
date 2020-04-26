@@ -17,7 +17,7 @@
     <script type="text/javascript" src="/simditor/scripts/simditor.js"></script>
     <script>
              $(function () {
-                $("#gender option[value=${session.umsMember.getGender()}]").attr(selected,true);
+                $("#gender option[value=${user.getGender()}]").attr(selected,true);
              });
     </script>
 </head>
@@ -31,12 +31,12 @@
     <form th:action="@{modifyInfo}" method="post">
         <div class="form-group">
              <label  class=" control-label">用户名</label>
-             <input type="text" readonly="true" class="form-control " name="username" th:value="${session.umsMember?.getUsername()}">
+             <input type="text" readonly="true" class="form-control " name="username" th:value="${user?.username}">
 
         </div>
         <div class="form-group">
              <label  class="control-label">昵称</label>
-             <input type="text" class="form-control " name="nickname" th:value="${session.umsMember.getNickname()}">
+             <input type="text" class="form-control " name="nickname" th:value="${user?.nickname}">
 
         </div>
         <div class="form-group">
@@ -48,33 +48,28 @@
         </div>
         <div class="form-group">
              <label  class=" control-label">联系方式</label>
-             <input type="text" class="form-control " name="phone" th:value="${session.umsMember.getPhone()}">
+             <input type="text" class="form-control " name="phone" th:value="${user?.phone}">
 
         </div>
         <div class="form-group">
              <label  class=" control-label">Email</label>
-              <input type="text" class="form-control" name="email" th:value="${session.umsMember.getEmail()}">
-
-        </div>
-        <div class="form-group">
-             <label  class=" control-label">出生日期</label>
-             <input type="text" class="form-control " name="birthday" th:value="${session.umsMember.getBirthday()}">
+              <input type="text" class="form-control" name="email" th:value="${user?.email}">
 
         </div>
         <div class="form-group">
              <label  class="control-label">职业</label>
-             <input type="text" class="form-control " name="job" th:value="${session.umsMember.getJob()}">
+             <input type="text" class="form-control " name="job" th:value="${user?.job}">
 
         </div>
         <div class="form-group">
              <label  class="control-label">所在城市</label>
-             <input type="text" class="form-control " name="city" th:value="${session.umsMember.getCity()}">
+             <input type="text" class="form-control " name="city" th:value="${user?.city}">
 
         </div>
         <div class="form-group">
              <label  class="control-label">个性签名</label>
              <div class="content">
-                   <textarea placeholder="输入文本内容" name="signature" id="editor" th:text="${session.umsMember.getSignature()}"></textarea>
+                   <textarea placeholder="输入文本内容" name="signature" id="editor" th:text="${user?.signature}"></textarea>
                    <script type="text/javascript">
                        var editor = new Simditor({
                            textarea: $('#editor'),

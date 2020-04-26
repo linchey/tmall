@@ -162,9 +162,9 @@ public class ProductController {
     }
     @PostMapping("search")
     @ResponseBody
-    public PmsProduct search(@RequestParam("productName") String productName){
-        PmsProduct product=productService.findProByName(productName);
-        return  product;
+    public List<PmsProduct> search(@RequestParam("productName") String productName){
+        List<PmsProduct> products=productService.findProByName(productName);
+        return  products;
     }
 
 }

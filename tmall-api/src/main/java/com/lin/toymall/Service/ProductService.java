@@ -2,6 +2,7 @@ package com.lin.toymall.Service;
 
 import com.lin.toymall.bean.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface ProductService {
@@ -39,11 +40,17 @@ public interface ProductService {
 
     void delImge(String id);
 
-    PmsProduct findProByName(String name);
+    List<PmsProduct> findProByName(String name);
 
     PmsCatalog1 findCatalog1ById(String id);
 
     PmsCatalog2 findCatalog2ById(String id);
 
     PmsCatalog3 findCatalog3ById(String id);
+
+    List<PmsProduct> findProductBycata2(String catalog2Id);
+
+    List<PmsProduct> findProductBycata3(String catalog3Id);
+
+    boolean checkPrice(String productId, BigDecimal price);
 }

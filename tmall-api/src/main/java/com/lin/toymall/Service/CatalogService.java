@@ -53,4 +53,6 @@ public interface CatalogService {
     void modifyCatalog1(PmsCatalog1 catalog1);
 
     void delCatalog1(String catalog1Id);
+
+    String findNameByCatlog3Id(String catalog3Id);
 }

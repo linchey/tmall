@@ -30,7 +30,6 @@
           <if test="createTime!=null">createTime=#{createTime},</if>
           <if test="icon!=null">icon=#{icon},</if>
           <if test="gender!=null">gender=#{gender},</if>
-          <if test="birthday!=null">birthday=#{birthday},</if>
           <if test="city!=null">city=#{city},</if>
           <if test="job!=null">job=#{job},</if>
           <if test="signature!=null">signature=#{signature},</if>

@@ -1,100 +1,121 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>订单详情</title>
+	<meta charset="utf-8" />
+	<title>用户信息列表</title>
 
-    <div th:replace="common_cssjs"></div>
-    <link type="text/css" rel="stylesheet" media="screen" th:href="@{/css/product.css}">
-</head>
+    <link href="/common/plugins/icheck-bootstrap/icheck-bootstrap.min.css" rel="stylesheet" />
+    <link href="/common/sco/css/pagination.css" rel="stylesheet" type="text/css" />
+    </head>
+    <style>
 
+    </style>
 <body>
-<div th:replace="common/header::nav"></div>
-<div class="container">
-    <div class="form-horizontal">
-        <div class="row">
-            <div class="form-group">
-                <label class="col-sm-2 control-label">地址</label>
-
-                <div class="col-sm-6">
-                    <p class="form-control-static" th:text="${order.address}"></p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">邮编</label>
-
-                <div class="col-sm-6">
-                    <p class="form-control-static" th:text="${order.zipcode}"></p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">电话</label>
-
-                <div class="col-sm-6">
-                    <p class="form-control-static" th:text="${order.phone}"></p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label">联系人</label>
-
-                <div class="col-sm-6">
-                    <p class="form-control-static" th:text="${order.consignee}"></p>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-2 control-label">创建时间</label>
-
-                <div class="col-sm-6">
-                    <p class="form-control-static" th:text="${order.createTime}"></p>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-2 control-label">付款时间</label>
-
-                <div class="col-sm-6">
-                    <p class="form-control-static" th:text="${order.shipTime}"></p>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="col-sm-2 control-label">发货时间</label>
-
-                <div class="col-sm-6">
-                    <p class="form-control-static" th:text="${order.confirmTime}"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="page-header">
-            <h2>商品详情</h2>
-        </div>
-        <table class="table table-striped">
+    <div>
+        <table class="table table-bordered" >
             <thead>
-            <tr>
-                <td>名称</td>
-                <td>型号</td>
-                <td>编码</td>
-                <td>单价</td>
-                <td>数量</td>
-                <td>总价</td>
-            </tr>
-            </thead>
-            <tbody>
-                <tr th:each="orderItem:${order.orderItems}" th:pid="${orderItem.id}">
-                    <td><a th:href="@{'/product/'+${orderItem.product.id}}" th:text="${orderItem.product.title}"></a></td>
-                    <td th:text="${orderItem.product.model}"></td>
-                    <td th:text="${orderItem.product.code}"></td>
-                    <td th:text="${orderItem.product.point}"></td>
-                    <td th:text="${orderItem.quantity}"></td>
-                    <td th:text="${orderItem.product.point*orderItem.quantity}"></td>
+                <tr>
+                    <th>订单号</th>
+                    <th>创建人</th>
+                    <th>收件人</th>
+                    <th>联系方式</th>
+                    <th>邮编</th>
+                    <th>省份</th>
+                    <th>地区</th>
+                    <th>城市</th>
+                    <th>详细地址</th>
+                    <th>总价(元)</th>
+                    <th>创建时间</th>
+                    <th>修改时间</th>
+                    <th>备注</th>
+                    <th>订单状态</th>
+                    <th>操作</th>
                 </tr>
+            </thead>
+            <tbody id="tb">
+                <tr th:each="order:${orderList}">
+                    <td th:text="${order?.orderCode}"></td>
+                    <td th:text="${order?.memberName}"></td>
+                    <td th:text="${order?.receviceName}"></td>
+                    <td th:text="${order?.recevicePhone}"></td>
+                    <td th:text="${order?.recevicePostCode}"></td>
+                    <td th:text="${order?.receviceProvince}"></td>
+                    <td th:text="${order?.receviceRegion}"></td>
+                    <td th:text="${order?.receviceCity}"></td>
+                    <td th:text="${order?.receviceDetailAddress}"></td>
+                    <td th:text="${order?.totalAmount}"></td>
+                    <td th:text="${#dates.format(order?.createTime, 'yyyy-MM-dd HH:mm:SS')}"></td>
+                    <td th:text="${#dates.format(order?.modifyTime, 'yyyy-MM-dd HH:mm:SS')}"></td>
+                    <td th:text="${order?.note}"></td>
+                    <td th:text="${order.status}=='0'?'未付款':'已付款'"></td>
+                    <td th:id="${order.id}"><a class="btn bg-olive btn-xs delBtn"style="cursor: pointer">删除</a><button class="btn bg-olive btn-xs queryBtn" style="cursor: pointer">查看</button></td>
+                </tr>
+
             </tbody>
+
         </table>
+       <!-- <div style="margin-left: 550px">
+                    <ul class="pagination">
+                         <li class="page-link"><a href="#">&laquo;</a></li>
+                         <li class="page-link active"><a>1</a></li>
+                        <li class="page-link disabled "><a  href="#">2</a></li>
+                        <li class="page-link"><a href="#">3</a></li>
+                        <li class="page-link"><a href="#">4</a></li>
+                        <li class="page-link"><a href="#">5</a></li>
+                        <li class="page-link"><a href="#">&raquo;</a></li>
+                    </ul>
+        </div>-->
+
     </div>
-</div>
-<!-- /container -->
-<div th:replace="common/footer::copy"></div>
 </body>
+<script>
+$(function() {
+$(document).on("click",".queryBtn",function() {
+  var that=$(this);
+   $(that).prop("disabled","disabled");
+   $(that).after("<a class='btn bg-olive btn-xs cancelBtn' style='cursor: pointer'>取消</a>")
+  var orderId=$(that).parent().attr("id");
+  $.get("/admin/orderQuery","orderId="+orderId,function(result) {
+
+      result=JSON.parse(result)
+    if(result.length!=0){
+       for(var i=0;i<result.length;i++){
+               var str="<tr id='"+orderId+"'class='orderItems'><td colspan='6'  style='line-height: 50px;'><img style='width: 50px;height: 50px' src='"+result[i].productPic+"'/></td>" +
+                "<td style='text-align: center' colspan='4'><span   style='width: 50px;height: 50px'>"+result[i].productName+"</span ></td>" +
+                 "<td style='text-align: center' colspan='2'><span  style='width: 50px;height: 50px'>"+result[i].quantity+"</span><span>件</span></td>" +
+                 "<td style='text-align: center' colspan='3'><span  style='width: 50px;height: 50px' >"+result[i].totalAmount+"</span ><span>元</span></td></tr>";
+
+           }
+             $(that).parent().parent().after(str);
+    }
+
+
+  }).first()
+}).first();
+$(document).on("click",".cancelBtn",function() {
+    var orderId=$(this).parent().attr("id");
+    $(" tr[id='"+orderId+"']").remove();
+    $(this).prev().removeAttr("disabled");
+    $(this).remove();
+
+}).first();
+
+  $(document).off("click", ".delBtn");
+  $(document).on("click",".delBtn",function() {
+      var that=$(this);
+      var orderId=$(this).parent().attr("id");
+      var check=confirm("确定删除吗?");
+      if(check){
+          $.get("/admin/delOrder","orderId="+orderId,function(result) {
+                $(that).parent().parent().remove()
+              }).first()
+      }else{
+          return;
+      }
+
+  }).first()
+})
+
+</script>
 </html>

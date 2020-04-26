@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml"  xmlns:th="http://www.thymeleaf.org">
 <div  th:fragment="weclome" >
-   <div class="navbar-header"th:if="${session.umsMember == null}">
+   <div class="navbar-header"th:if="${session?.umsMember == null}">
      <span>您好！</span>
      <span>找到中意的玩具了吗</span>
      <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -8,10 +8,10 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
      </button>
-     <a th:href="@{/user/login}">请登录</a>
+     <a  href="http://localhost:8081/user/login?ReturnUrl=http://localhost:8081/user/home">请登录</a>
      <a th:href="@{/user/toRegister}">免费注册</a>
    </div>
-   <div class="navbar-header" th:unless="${session.umsMember == null}">
+   <div class="navbar-header" th:unless="${session?.umsMember == null}">
      <span>您好！</span>
      <span th:text="${session.umsMember.getUsername()}"></span>
      <a th:href="@{/user/logout}">退出</a>

@@ -28,8 +28,38 @@
 <section id="page-part1">
     <div class="navbar navbar-default" >
         <div class="container">
-        <!--小屏幕图标-->
-            <div th:replace="user/header::weclome"></div>
+        <div class="navbar-header"th:if="${session.umsMember == null}">
+            <span>您好！</span>
+            <span>找到中意的玩具了吗</span>
+            <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+            </button>
+            <a  href="http://localhost:8081/user/login?ReturnUrl=http://localhost:8081/user/home">请登录</a>
+            <a th:href="@{/user/toRegister}">免费注册</a>
+          </div>
+        <div class="navbar-header" th:unless="${session.umsMember == null}">
+            <span>您好！</span>
+            <span th:text="${session.umsMember.getUsername()}"></span>
+            <a th:href="@{/user/logout}">退出</a>
+            <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+            </button>
+
+          </div>
+           <div class="navbar-collapse collapse" >
+               <ul class="nav navbar-nav navbar-right">
+                   <li><a style="cursor: pointer;padding: 0px;">我的学习</a></li>
+                   <li><a href="http://localhost:8081/user/myInformation?ReturnUrl=http://localhost:8081/user/home" style="cursor: pointer;padding: 0px;"><i class="glyphicon glyphicon-user"></i>个人中心</a></li>
+                   <li><a th:href="@{/user/myOrder}"style="cursor: pointer;padding: 0px;">我的订单</a></li>
+                   <li><a th:href="@{/user/resetPanel}" style="cursor: pointer;padding: 0px;">密码修改</a></li>
+                   <li style="border-right: none"><a th:href="@{/user/userAddress}" style="cursor: pointer;padding: 0px;">地址管理</a></li>
+               </ul>
+           </div>
+       </div>
     </div>
 </div>
 </section>
@@ -40,16 +70,17 @@
                 <img src="/ images/书店logo.png">
             </div>
             <div class="search">
-                <input type="text"class="col-md-offset-1 col-md-5"  placeholder="玩具">
-                <button class="col-md-1"><i class="glyphicon glyphicon-search" ></i></button>
+                <input type="text" name="search" id="search" class="col-md-offset-1 col-md-5"  placeholder="玩具">
+                <a id="submit"class="col-md-1 search1" ><i class="glyphicon glyphicon-search" ></i></a>
                 <div id="shopping-cart-part" class="col-md-offset-1 col-md-2">
-                    <i class="glyphicon glyphicon-shopping-cart"></i>
-                    <a>购物车</a>
+                     <a style="cursor: pointer" th:href="@{/cartList}"><i class="glyphicon glyphicon-shopping-cart"></i>
+                   购物车</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<div id="main1">
 <section id="page-part3">
     <div class="container">
         <div class="row" style="padding-left:12px">
@@ -72,7 +103,7 @@
         <div class="catroge" >
         <div th:each="catlog1:${catalogList}">
          <div class="item1">
-            <p class="item_header_title"th:text="${catlog1.name}" >益智玩具</p>
+            <p class="item_header_title" th:id="${catlog1.id}" th:text="${catlog1.name}" >益智玩具</p>
             <!--banner浮层滑动显示弹框-->
          </div>
               <div class="cat_subcont" >
@@ -80,8 +111,8 @@
                      <!-- 浮层左边列表-->
                       <div class="fore1" th:each="catlog2:${catlog1.catalog2List}">
                           <div class="fore_list">
-                              <h3><a href="javascript:void(0);"th:text="${catlog2.name}" ></a></h3>
-                               <ul class="clearfix" > <li th:each="catlog3:${catlog2.catalog3List}"><a href="javascript:void(0);" th:text="${catlog3.name}"></a></li></ul>
+                              <h3><a  th:value="${catlog2.id}" href="javascript:void(0);"th:text="${catlog2.name}" ></a></h3>
+                               <ul class="clearfix" > <li th:each="catlog3:${catlog2.catalog3List}"><a th:value="${catlog3.id}" href="javascript:void(0);" th:text="${catlog3.name}"></a></li></ul>
                           </div>
                       </div>
 
@@ -129,7 +160,7 @@
         </div>
     </div>
 </section>
-
+</div>
 </body>
 <script th:src="@{/js/userhome.js}" type="text/javascript"></script>
 
