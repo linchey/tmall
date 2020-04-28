@@ -1,0 +1,15 @@
+service zookeeper restart
+service dubbo-admin restart
+service fdfs_trackerd start
+service fdfs_storaged start
+
+cd /var/run
+mkdir nginx
+ cd nginx
+touch nginx.pid
+
+/usr/local/nginx/sbin/nginx
+
+
+cd /usr/local/redis/bin
+./redis-server redis.conf
