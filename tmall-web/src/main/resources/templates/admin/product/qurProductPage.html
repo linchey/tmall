@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>商品查询</title>
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<style>
+.addPic{
+width:150px ;
+height:150px;
+border: 2px dashed #dedede;
+text-align: center;
+margin: 20px;
+}
+.fa-plus{
+margin: 40px;
+font-size: 50px;
+color: #e1dfdf;
+padding: 10px;
+}
+.edit{
+cursor: pointer;
+}
+select option{
+font-weight: normal;
+}
+</style>
+
+</head>
+
+<body>
+    <form role="form" method="post" class="form-horizontal" style="padding-left: 8px" >
+    <div style="width: 500px;margin: 20px;">
+
+          <div class="input-group input-group-sm">
+            <input  type="text"class="form-control " placeholder="输入商品名称" id="name">
+              <button id="search" class="btn " type="button">
+                <i class="fas fa-search"></i>
+              </button>
+          </div>
+
+    </div>
+       <div class="catalogView" >
+       <div class="row">
+        <label class="control-label" style="margin-left:10px;margin-right: 20px;">一级分类</label>
+        <select  style="width: 150px ;font-weight: bold" class="form-control catalog1"  type="text"  >
+            <option  style="font-weight: bold" selected disabled value="0">请选择</option>
+        </select>
+        <label class="control-label" style="margin-left:10px;margin-right: 20px;">二级分类</label>
+        <select  style="width: 150px ;font-weight: bold" class="form-control catalog2"  type="text"  >
+            <option style="font-weight: bold"selected disabled value="0">请选择</option>
+        </select>
+        <label class="control-label" style="margin-left:10px;margin-right: 20px;">三级分类</label>
+        <select style="width: 150px ;font-weight: bold" class="form-control catalog3"  type="text"  >
+            <option style="width: 150px ;font-weight: bold" selected disabled value="0">请选择</option>
+        </select>
+        <button type="button" id="queryProductBtn" class="btn btn-primary "style="margin-left: 15px">查询</button>
+
+        </div>
+       </div>
+    </form>
+<div class="qurProductList" hidden>
+    <table class="table table-bordered table-striped" style="margin-top: 10px ">
+      <thead>
+        <tr>
+            <th style="text-align: center;">编号</th>
+            <th style="text-align: center;">商品名称</th>
+            <th style="text-align: center;">商品价格</th>
+            <th style="text-align: center;">库存量</th>
+            <th style="text-align: center;">商品描述</th>
+            <th style="text-align: center;">封面图片</th>
+            <th style="text-align: center;">操作</th>
+        </tr>
+        </thead>
+        <tbody class="product1">
+
+        </tbody>
+    </table>
+</div>
+
+</body>
+<script th:src="@{/js/product.js}" type="text/javascript"></script>
+</html>

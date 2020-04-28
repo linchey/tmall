@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="/css/order/trade.css" />
+        <script src="/common/js/jquery.min.js" charset="utf-8"></script>
+		<title>提交失败</title>
+	</head>
+
+	<body>
+			<!--顶部-->
+        		<header style="background-color: #f8f8f8  ">
+        			<div class="header " style="width: 1210px" >
+        				<ul class="header-left">
+        					<li>
+
+        						<a href="/user/home">首页</a>
+        					</li>
+
+
+        				</ul>
+        				<ul class="header-right">
+        					<li style="font-size: 12px;" th:text="'你好，'+${username}"> </li>
+                            <li><a th:href="@{/user/logout}">退出</a></li>
+        					<li class="spacer"></li>
+        					<li><a href="">我的订单</a></li>
+        					<li class="spacer"></li>
+
+        				</ul>
+        				<div style="clear: both;"></div>
+        			</div>
+
+
+        		</header>
+        <!--logo图片-->
+		<div class="top-1">
+			<img src="/ images/书店logo.png" class="img1" /><span>结算页</span>
+			<!--右侧绿色-->
+			<img src="/ images/load.png" class="img2" />
+		</div>
+		<!--主体部分-->
+		<p class="p1" >可能是如下原因：</p>
+		<div class="section" style="height: 200px">
+
+			<div class="top-2">
+				<span> 订单重复提交</span>
+			</div>
+
+		</div>
+
+
+	</body>
+
+</html>

@@ -1,0 +1,122 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/search/search.css">
+    <link rel="stylesheet" type="text/css" href="/common/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/css/userHome.css">
+    <script src="/common/js/jquery1.9.js"></script>
+    <title>搜索结果</title>
+</head>
+<body>
+ <!--导航栏-->
+ <section id="page-part1">
+     <div class="navbar navbar-default" >
+         <div class="container">
+         <!--小屏幕图标-->
+          <div class="navbar-header"th:if="${session?.umsMember == null}">
+              <span>您好！</span>
+              <span>找到中意的玩具了吗</span>
+              <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+              </button>
+              <a  href="http://localhost:8081/user/login?ReturnUrl=http://localhost:8081/user/home">请登录</a>
+              <a th:href="@{/user/toRegister}">免费注册</a>
+            </div>
+            <div class="navbar-header" th:unless="${session?.umsMember == null}">
+              <span>您好！</span>
+              <span th:text="${session.umsMember.getUsername()}"></span>
+              <a th:href="@{/user/logout}">退出</a>
+              <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+                   <span class="icon-bar"></span>
+              </button>
+
+            </div>
+             <div class="navbar-collapse collapse" >
+                 <ul class="nav navbar-nav navbar-right">
+                     <li><a style="cursor: pointer;padding: 0px;">我的学习</a></li>
+                     <li><a th:href="@{/user/myInformation}" style="cursor: pointer;padding: 0px;"><i class="glyphicon glyphicon-user"></i>个人中心</a></li>
+                     <li><a style="cursor: pointer;padding: 0px;">我的订单</a></li>
+                     <li><a th:href="@{/user/resetPanel}" style="cursor: pointer;padding: 0px;">密码修改</a></li>
+                     <li style="border-right: none"><a th:href="@{/user/userAddress}" style="cursor: pointer;padding: 0px;">地址管理</a></li>
+             </ul>
+         </div></div>
+     </div>
+ </div>
+ </section>
+ <section id="page-part2">
+     <div class="container">
+         <div class="row">
+             <div id="imge-part" class="col-md-2">
+                 <img src="/ images/书店logo.png">
+             </div>
+             <div class="search">
+                 <input name="search" id="search" type="text"class="col-md-offset-1 col-md-5"  placeholder="玩具">
+                 <a id="submit"class="col-md-1 search1" ><i class="glyphicon glyphicon-search" ></i></a>
+                 <div id="shopping-cart-part" class="col-md-offset-1 col-md-2">
+                      <a style="cursor: pointer" th:href="@{/cartList}"><i class="glyphicon glyphicon-shopping-cart"></i>
+                    购物车</a>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </section>
+<hr style="border: 1px solid red;margin-top: 30px;width: 1210px;margin-left: 150px;">
+
+<br/>
+<div class="sx">
+    <div class="sx_bar">
+        <div class="sx_one a">
+            筛选条件
+        </div>
+        <i><img src="/images/right-@1x.png" alt=""></i>
+        <span th:if="${keyword}!=null" th:text="'&quot;'+${keyword}+'&quot;'"></span>
+    </div>
+</div>
+
+<!--商品筛选和排序-->
+<section id="course" >
+        <div class="container" th:if="${productList==null}">
+            <p style="color: red">没有搜索结果，返回<a>主页</a></p>
+        </div>
+        <div class="container" th:unless="${productList==null}" >
+            <div class="row">
+                <div class="img_cover"th:each="product:${productList}" th:onclick="'item('+${product.id}+')'">
+                    <a href="#" >
+                        <div class="col-md-2">
+                            <img th:src="${product.defaultImg}">
+                            <div class="item_name" th:text="${product.productName}">三只松鼠休闲零食膨化小吃薯条原味小贱美式薯条75g/袋</div>
+                            <div class="item_price" th:text="${product.price}">￥14.90</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+</section>
+<br/>
+<br/>
+
+
+
+
+<script language="JavaScript">
+    function item(productId) {
+        window.location.href="http://localhost:8081/item/"+productId+".html";
+    }
+    $(function() {
+       $("#submit").click(function () {
+           var search=$("#search").val();
+           $(this).attr("href","/search/productName?search="+search);
+       })
+    })
+</script>
+</body>
+</html>

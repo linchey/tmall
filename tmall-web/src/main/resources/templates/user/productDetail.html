@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/css/productDetail.css" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/userHome.css">
+
+<style>
+    h1 {
+
+        font-size: 20px;
+        background-color: red;
+        width: 200px;
+        margin-left: 45px;
+        margin-top: 0px;
+        text-align: center;
+        padding-right: 45px;
+        font-size: 18px;
+        color:white;
+    }
+</style>
+</head>
+<body>
+	<div id="max">
+	    <div id="page-part1">
+            <div class="navbar navbar-default" >
+            <div class="container">
+                 <div class="navbar-header"th:if="${session?.umsMember == null}">
+                     <span>您好！</span>
+                     <span>找到中意的玩具了吗</span>
+                     <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                     </button>
+                     <a  href="http://localhost:8081/user/login?ReturnUrl=http://localhost:8081/item/productDetail">请登录</a>
+                     <a th:href="@{/user/toRegister}">免费注册</a>
+                   </div>
+                   <div class="navbar-header" th:unless="${session?.umsMember == null}">
+                     <span>您好！</span>
+                     <span th:text="${session.umsMember.getUsername()}"></span>
+                     <a th:href="@{/user/logout}">退出</a>
+                     <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                          <span class="icon-bar"></span>
+                     </button>
+
+                   </div>
+                    <div class="navbar-collapse collapse" >
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a style="cursor: pointer;padding: 0px;">我的学习</a></li>
+                            <li><a th:href="@{/user/myInformation}" style="cursor: pointer;padding: 0px;"><i class="glyphicon glyphicon-user"></i>个人中心</a></li>
+                            <li><a style="cursor: pointer;padding: 0px;">我的订单</a></li>
+                            <li><a th:href="@{/user/resetPanel}" style="cursor: pointer;padding: 0px;">密码修改</a></li>
+                            <li style="border-right: none"><a th:href="@{/user/userAddress}" style="cursor: pointer;padding: 0px;">地址管理</a></li>
+                    </ul>
+                </div></div>
+            </div>
+        </div>
+        </div>
+        <div id="search" style="margin-bottom: 20px">
+        <div class="container">
+                      <div class="row">
+                          <div id="imge-part" class="col-md-2">
+                              <img src="/ images/书店logo.png">
+                          </div>
+                          <div class="search">
+                              <input name="search" id="search" type="text"class="col-md-offset-1 col-md-5"  placeholder="玩具">
+                              <a id="submit"class="col-md-1 search1" ><i class="glyphicon glyphicon-search" ></i></a>
+                              <div id="shopping-cart-part" class="col-md-offset-1 col-md-2">
+                                  <a style="cursor: pointer" th:href="@{/cartList}"><i class="glyphicon glyphicon-shopping-cart"></i>
+                                                     购物车</a>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+    </div>
+        <div class="crumb-wrap">
+		<div class="w">
+			<div class="crumb">
+				<div class="crumb-item" >
+					<a href="" th:text="${catalog1?.name}">手机</a>
+				</div>
+				<div class="crumb-item sep">></div>
+				<div class="crumb-item">
+					<a href="" th:text="${catalog2?.name}">手机通讯</a>
+				</div>
+
+				<div class="crumb-item sep">></div>
+                <div class="crumb-item">
+					<a href="" th:text="${catalog3?.name}">手机通讯</a>
+				</div>
+				<div class="crumb-item sep">></div>
+				<div class="crumb-item" th:text="${productDetail?.productName}">
+					华为Mate 10
+				</div>
+			</div>
+
+			</div>
+
+		</div>
+	</div>
+    <div class="detailBody">
+		    <div class="box">
+			<div class="box-one ">
+				<div class="boxx">
+
+					<div class="imgbox">
+						<div class="probox">
+							<img class="img1" alt="" th:src="${productDetail.defaultImg}" src="img/59ded626N7c4cb0a3.jpg">
+							<div class="hoverbox"></div>
+						</div>
+						<div class="showbox">
+							<img class="img1" alt="" th:src="${productDetail.defaultImg}" src="img/59ded626N7c4cb0a3.jpg">
+						</div>
+					</div>
+
+					<div class="box-lh">
+
+						<div class="box-lh-one">
+							<ul>
+							    <li th:each="productImage:${productDetail?.pmsProductImageList}">
+                            	    <img th:src="${productImage?.imgUrl}"/>
+                            	</li>
+							</ul>
+						</div>
+						<div id="left">
+							< </div>
+								<div id="right">
+									>
+								</div>
+						</div>
+					</div>
+					<div class="box-two">
+						<div class="box-name" th:text="${productDetail?.productName}">
+							aaa
+						</div>
+
+						<div class="box-summary clear">
+							<ul>
+								<li>售价</li>
+								<li>
+									<span>￥</span>
+									<span th:text="${productDetail?.price}">4499.00</span>
+								</li>
+								<li>
+								</li>
+
+							</ul>
+						</div>
+                        <div class="box-code clear">
+                             <ul class="box-ul">
+                                 <li>商品编码:</li>
+                                 <li>
+                                    <span th:text="${productDetail?.id}"></span>
+                                 </li>
+                             </ul>
+                         </div>
+
+						<div class="box-stock clear">
+							<ul class="box-ul">
+								<li>库存:</li>
+                                <li>
+                                	<span th:text="${productDetail?.stock}">无货</span>
+                                	<span>件</span>
+                                </li>
+							</ul>
+						</div>
+						<div class="box-note clear">
+								<ul class="box-ul">
+                                    <li>描述:</li>
+                                    <li><span  th:text="${productDetail?.note}"></span></li>
+								</ul>
+						</div>
+
+						<div class="box-btns clear">
+							<div class="box-btns-one">
+							    <form id="itemForm" th:action="@{/addToCart}" method="post">
+
+								    <input type="hidden" name="productId"  th:value="${productDetail?.id}" />
+								    <input type="text" name="quantity" id="" value="1" />
+                                    <div class="box-btns-one1">
+									    <div>
+										    <button type="button" id="jia">
+									        +
+									        </button>
+									    </div>
+									    <div>
+										    <button type="button" id="jian">
+										    -
+									        </button>
+									    </div>
+								    </div>
+                                </form>
+							</div>
+							<div class="box-btns-two">
+								<a id="cartBtn" canClick="1" style="cursor:pointer;"   >
+									加入购物车
+								</a>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+        </div>
+</div>
+</body>
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script src="/js/productPage.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript">
+</script>
+
+</html>

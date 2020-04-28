@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="/css/order/trade.css" />
+        <script src="/common/js/jquery.min.js" charset="utf-8"></script>
+        <link rel="stylesheet" type="text/css" href="/common/bootstrap/css/bootstrap.css" />
+		<title>提交成功</title>
+	</head>
+
+	<body>
+	<input id="orderId" type="text" th:value="${orderId}" hidden/>
+			<button id="paying"onclick="location=paying(this)" >立即支付</button>
+			<button onclick="location='/user/myOrder'">我的订单</button>
+	</body>
+    <script>
+        function  paying(obj) {
+          var orderId=$("#orderId").val();
+          return "/paying?orderId="+orderId;
+        }
+    </script>
+</html>

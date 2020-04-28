@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script type="text/javascript" src="/common/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/common/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/js/cart/swiper.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/cart/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="/common/bootstrap/css/bootstrap.css" />
+    <link href="http://cdn.bootcss.com/font-awesome/4.6.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/cart/success.css" />
+    <link rel="stylesheet" type="text/css" href="/css/userHome.css">
+ </head>
+    <body>
+    <!--头部-->
+    <div id="page-part1">
+                <div class="navbar navbar-default" >
+                <div class="container">
+                    <div th:replace="user/header::weclome"></div>
+                </div>
+            </div>
+            </div>
+        <div class="nav-tabs-justified">
+        <div class="nav_wrap">
+        <div class="nav_top">
+        <div class="nav_top_one">
+        <a href="/#"><img src="/ images/书店logo.png"  style="height: 60px;width:180px;"  /></a>
+        </div>
+        <div class="nav_top_two"><input type="text" /><button>搜索</button></div>
+    </div>
+    </div>
+    </div>
+    <div class="main">
+
+        <div class="success-wrap">
+        <div class="w" id="result">
+        <div class="m succeed-box">
+        <div class="mc success-cont">
+        <div class="success-lcol">
+        <div class="success-top"><b class="succ-icon"></b>
+        <h3 class="ftx-02">商品已成功加入购物车</h3></div>
+    <div class="p-item">
+        <div class="p-img">
+        <a href="/javascript:;" target="_blank"><img style="height: 60px;width:60px;" th:src="${productInfo?.defaultImg}"></a>
+        </div>
+        <div class="p-info">
+        <div class="p-name">
+        <a th:href="'/item'+${productInfo?.id}+'.html'"  th:text="${productInfo?.productName}"  ></a>
+    </div>
+    <div class="p-extra"> <span class="txt" th:text="'数量：'+${nums}" >  数量：1</span></div>
+    </div>
+    <div class="clr"></div>
+        </div>
+        </div>
+        <div class="success-btns success-btns-new">
+        <div class="success-ad">
+        <a href="/#none"></a>
+        </div>
+        <div class="clr"></div>
+        <div class="bg_shop">
+        <a class="btn-tobback" th:href="'http://localhost:8081/item/'+${productInfo?.id}+'.html'">查看商品详情</a>
+        <a class="btn-addtocart"  href="cartList" id="GotoShoppingCart"><b></b>去购物车结算</a>
+   </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </body>
+    <script type="text/javascript" src="/js/cart/success.js"></script>
+</html>

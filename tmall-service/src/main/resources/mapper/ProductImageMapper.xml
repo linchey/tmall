@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lin.toymall.service.mapper.ProductImageMapper">
+    <resultMap id="imageMap" type="com.lin.toymall.bean.PmsProductImage" autoMapping="true">
+        <id column="id" property="id"></id>
+    </resultMap>
+    <select id="selectByProId" parameterType="String" resultMap="imageMap">
+        select id,product_id,img_url from pms_product_image where product_id=#{productId};
+    </select>
+</mapper>

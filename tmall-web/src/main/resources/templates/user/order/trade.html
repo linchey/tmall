@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="/css/order/trade.css" />
+        <script src="/common/js/jquery.min.js" charset="utf-8"></script>
+		<title>结算</title>
+	</head>
+
+	<body>
+		<!--顶部-->
+		<header style="background-color: #f8f8f8  ">
+			<div class="header " style="width: 1210px" >
+				<ul class="header-left">
+					<li>
+
+						<a href="/user/home">首页</a>
+					</li>
+
+
+				</ul>
+				<ul class="header-right">
+					<li style="font-size: 12px;" th:text="'你好，'+${username}"> </li>
+                    <li><a th:href="@{/user/logout}">退出</a></li>
+					<li class="spacer"></li>
+					<li><a href="">我的订单</a></li>
+					<li class="spacer"></li>
+
+				</ul>
+				<div style="clear: both;"></div>
+			</div>
+
+
+		</header>
+
+		<!--logo图片-->
+		<div class="top-1">
+			<img src="/ images/书店logo.png" class="img1" /><span>结算页</span>
+			<!--右侧绿色-->
+			<img src="/ images/load.png" class="img2" />
+		</div>
+
+		<!--主体部分-->
+		<p class="p1">填写并核对订单信息</p>
+		<div class="section">
+			<!--收货人信息-->
+			<div class="top-2">
+				<span style="color: black">收货人信息</span>
+
+			</div>
+
+
+
+			<!--地址-->
+			<div class="top-3">
+				<ul >
+				<li class=".address default selected" th:each="userAddress:${userAddressList}"  >
+					 <input   name="deliveryAddress" type="radio"  th:value="${userAddress.id}"   th:checked="${userAddress.defaultStatus}=='1'" onclick="changeAddress()">
+					<span  th:text="${userAddress.name}" >收件人AAAA </span><span th:text="${userAddress.province}+${userAddress.city}+${userAddress.region}+${userAddress.detailAddress}"   >具体地址111 </span>
+				 </li>
+				</ul>
+			</div>
+
+			</form>
+			<div class="hh1"/></div>
+
+
+
+		<!--支付方式-->
+		<h4 class="h4">支付方式</h4>
+
+		<div class="top-6">
+			<p style="cursor: pointer">   在线支付 </p>
+		</div>
+		<div class="hh1"></div>
+		<!--送货清单-->
+		<h4 class="h4" style="margin-top: 5px;">送货清单</h4>
+		<div class="top_1">
+
+			<div class="to_right">
+				<h5>商家：自营</h5>
+				<!--图片-->
+				<div class="yun1" th:each="omsOrderItem:${omsOrderItems}"  >
+					<img  th:src="${omsOrderItem.productPic}" class="yun"/>
+					<div class="mi">
+						<div><p style="width: 500px;" th:text="${omsOrderItem.productName}" >商品名称 </p>
+						    <span >
+						        <span align="center" style="color: red" ></span>
+						        <span style="text-align: center"   th:text="'X '+${omsOrderItem.quantity}"> X 1   </span>
+						        <span style="text-align: center" >有货</span>
+
+						    </span>
+						</div>
+					</div>
+				</div>
+
+
+		  </div>
+		</div>
+		<div class="bto">
+			<div class="hh2"></div>
+			<h4 >添加订单备注:</h4>
+
+			<textarea id="orderCommentPage"  maxlength="145" size="75" style="width:100%;height: 100px;padding: 5px" placeholder="请将购买需求在备注中说明(75个以内)"></textarea>
+			<div class="hh3"></div>
+
+		</div>
+		<div class="xia">
+			<div class="yfze">
+				<p class="yfze_a"><span class="z">应付总额：</span><span class="hq" th:text="'￥'+${totalAmount}" > ￥99999</span></p>
+              <!--  <p>
+                    <span>寄送至：</span>
+                    <span th:text="${userAddress.province}"></span>
+                    <span th:text="${userAddress.city}"></span>
+                    <span th:text="${userAddress.region}"></span>
+                    <span th:text=""></span>
+                </p>-->
+                <button id="submitButton" class="tijiao">提交订单</button>
+		    </div>
+
+		</div>
+
+		<form action="./submitOrder" method="post" id="orderForm">
+			<input name="receiveAddressId" id="receiveAddressId" value="1" type="hidden"/>
+			<input name="totalAmount" id="totalAmount" type="hidden" th:value="${totalAmount}"/>
+            <input name="note" id="note" type="hidden"/>
+			<input name="tradeCode" type="hidden"  th:value="${tradeCode}"  />
+		</form>
+		<script>
+			function changeAddress() {
+				var receiveAddressId = $("input[name='deliveryAddress']:checked").val();
+				$("#receiveAddressId").val(receiveAddressId);
+
+            }
+
+
+            $(function() {
+
+                $("#submitButton").click(function () {
+                   $("#consignee").val($("input[type='radio']:checked").next().text()) ;
+                   $("#deliveryAddress").val( $("input[type='radio']:checked").next().next().text());
+                   $("#paymentWay").val("ONLINE");
+                   $("#note").val($("#orderCommentPage").val());
+                   var a=$("#note").val()
+
+                   $("#orderForm").submit();
+
+                });
+
+            })
+
+
+
+
+		</script>
+	</body>
+
+</html>
